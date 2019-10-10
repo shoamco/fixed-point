@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include "Price.h"
+#include "TemplatePrice.h"
 
 
 #endif //CPP_FIXED_POINT_SHOAMCO_TESTPRICE_H
