@@ -18,6 +18,7 @@ private:
 inline Price::Price(int dollar,int cent):price(dollar*REPRESENTATION_CENT + cent){
 
 }
+
 inline int Price::GetPrice()const {
     return price ;
 }
@@ -27,5 +28,25 @@ inline  Price &Price::operator=(const Price &other){
     }
     return *this;
 }
+/* operator overload methods*/
+inline bool operator==(Price &price1, Price &price2) {
+    return price1==price2;
 
+}
+
+inline bool operator<=( Price &price1, Price &price2) {
+    return price1<=price2;
+
+}
+inline bool operator>=( Price &price1, Price &price2) {
+    return  price1>=price2;
+
+}
+
+inline bool operator<(Price &price1, Price &price2) {
+    return price1<price2;
+}
+inline bool operator>(Price &price1, Price &price2) {
+    return price1>price2;
+}
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
