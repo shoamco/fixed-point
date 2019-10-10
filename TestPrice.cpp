@@ -12,9 +12,10 @@ ASSERT_TRUE(p2.GetPrice() == 502);
 TEST(PriceTests, assignmentOpertorPrice) {
     Price p1(5);
     Price p2(5,2);
- p2=p1;
+    p2=p1;
     ASSERT_TRUE(p2.GetPrice() == p1.GetPrice());
-
+    p1=6;
+    ASSERT_TRUE(p1.GetPrice() == 600);
 
 
 }

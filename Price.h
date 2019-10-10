@@ -4,49 +4,75 @@
 #define CPP_FIXED_POINT_SHOAMCO_PRICE_H
 
 #define REPRESENTATION_CENT 100
+
 #include <iostream>
+
 class Price {
 public:
-    Price(int dollar=0,int cent=0);
+    Price(int dollar = 0, int cent = 0);
+
     int GetPrice() const;
+
     Price &operator=(const Price &other);
-   /* Price &operator=(int dollar);*/
+
+    Price &operator=(int dollar);
+
+    /* Price &operator=(int dollar);*/
+    friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
+    Price& operator+(const Price &other);
+
 
 private:
     int price;
 };
-inline Price::Price(int dollar,int cent):price(dollar*REPRESENTATION_CENT + cent){
+
+inline Price::Price(int dollar, int cent) : price(dollar * REPRESENTATION_CENT + cent) {
 
 }
 
-inline int Price::GetPrice()const {
-    return price ;
+inline int Price::GetPrice() const {
+    return price;
 }
-inline  Price &Price::operator=(const Price &other){
-    if(this!=&other){
-        this->price=other.price;
+
+inline Price &Price::operator=(const Price &other) {
+    if (this != &other) {
+        this->price = other.price;
     }
     return *this;
 }
+
+inline Price &Price::operator=(int dollar) {
+    this->price = dollar * REPRESENTATION_CENT;
+    return *this;
+}
+
 /* operator overload methods*/
 inline bool operator==(Price &price1, Price &price2) {
-    return price1==price2;
+    return price1 == price2;
 
 }
 
-inline bool operator<=( Price &price1, Price &price2) {
-    return price1<=price2;
+inline bool operator<=(Price &price1, Price &price2) {
+    return price1 <= price2;
 
 }
-inline bool operator>=( Price &price1, Price &price2) {
-    return  price1>=price2;
+
+inline bool operator>=(Price &price1, Price &price2) {
+    return price1 >= price2;
 
 }
 
 inline bool operator<(Price &price1, Price &price2) {
-    return price1<price2;
+    return price1 < price2;
 }
+
 inline bool operator>(Price &price1, Price &price2) {
-    return price1>price2;
+    return price1 > price2;
 }
+
+inline std::ostream &operator<<(std::ostream &stream, const Price &price1) {
+    return stream << "price: " << price1 << std::endl;
+
+}
+
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
