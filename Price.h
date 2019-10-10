@@ -19,7 +19,16 @@ public:
 
     /* Price &operator=(int dollar);*/
     friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
-    Price& operator+(const Price &other);
+
+    Price &operator+(const Price &other);
+
+    // Declare prefix and postfix increment operators.
+    Price &operator++();       // Prefix increment operator.
+    Price operator++(int);     // Postfix increment operator.
+
+    // Declare prefix and postfix decrement operators.
+    Price &operator--();       // Prefix decrement operator.
+    Price operator--(int);     // Postfix decrement operator
 
 
 private:
@@ -73,6 +82,29 @@ inline bool operator>(Price &price1, Price &price2) {
 inline std::ostream &operator<<(std::ostream &stream, const Price &price1) {
     return stream << "price: " << price1 << std::endl;
 
+}
+
+inline Price &Price::operator++() {
+    price+=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator++(int) {
+    Price temp = *this;
+    ++*this;
+    return temp;
+}
+
+
+inline Price &Price::operator--() {
+    price-=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator--(int) {
+    Price temp = *this;
+    --*this;
+    return temp;
 }
 
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
