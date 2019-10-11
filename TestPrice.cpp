@@ -60,7 +60,67 @@ TEST(PriceTests, postfixPostfixdecreaseOperatorPrice) {
 
 
 }
+TEST(PriceTests, BinaryAithmeticOperatorsPlus) {
+    Price p1(5);
+    Price p2(3);
 
+    p1+=p2;
+    ASSERT_TRUE(p1.GetPrice() == 800);
+
+
+    p2+=3;
+    ASSERT_TRUE(p2.GetPrice() == 600);
+
+    p2=p1+p1;
+    ASSERT_TRUE(p2.GetPrice() == 1600);
+
+
+    p1=p1+2;
+    ASSERT_TRUE(p1.GetPrice() == 1000);
+
+
+}
+TEST(PriceTests, BinaryAithmeticOperatorsMinus) {
+    Price p1(5);
+    Price p2(3);
+
+    p1-=p2;
+    ASSERT_TRUE(p1.GetPrice() == 200);
+
+
+    p2-=3;
+    ASSERT_TRUE(p2.GetPrice() == 0);
+    p2=5;
+    p2=p2-p1;
+    ASSERT_TRUE(p2.GetPrice() == 300);
+
+
+    p1=p1-1;
+    ASSERT_TRUE(p1.GetPrice() == 100);
+
+
+}
+
+TEST(PriceTests, BinaryAithmeticOperatorsMultiplication) {
+    Price p1(5);
+    Price p2(3);
+
+    p1*=p2;
+    ASSERT_TRUE(p1.GetPrice() == 1500);
+
+
+    p2*=3;
+    ASSERT_TRUE(p2.GetPrice() == 900);
+
+    p2=p2*p1;
+    ASSERT_TRUE(p2.GetPrice() == 13500);
+
+
+    p1=p1*0;
+    ASSERT_TRUE(p1.GetPrice() == 0);
+
+
+}
 TEST(PriceTests, GetPriceDollar) {
     Price p1(5, 5);
     ASSERT_TRUE(p1.GetPriceDollar() == (double) 5.05);

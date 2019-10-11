@@ -12,6 +12,7 @@ public:
     Price(int dollar = 0, int cent = 0);
 
     int GetPrice() const;
+
     double GetPriceDollar() const;
 
     Price &operator=(const Price &other);
@@ -20,8 +21,45 @@ public:
 
     /* Price &operator=(int dollar);*/
     friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
+    /****Binary arithmetic operators***/
+    /***operators + ***/
+    Price &operator+=(const Price &other);
 
-    Price &operator+(const Price &other);
+    Price &operator+=(int val);
+
+    Price operator+(const Price &other);
+
+    Price operator+(int val);
+
+    /***operators -***/
+    Price &operator-=(const Price &other);
+
+    Price &operator-=(int val);
+
+    Price operator-(const Price &other);
+
+    Price operator-(int val);
+
+/***   operators *   ***/
+
+    Price &operator*=(const Price &other);
+
+    Price &operator*=(int val);
+
+    Price operator*(const Price &other);
+
+    Price operator*(int val);
+
+
+    Price &operator/=(const Price &other);
+
+    Price &operator%=(const Price &other);
+
+
+    Price operator/(int val);
+
+    Price operator%(int val);
+
 
     // Declare prefix and postfix increment operators.
     Price &operator++();       // Prefix increment operator.
@@ -43,8 +81,9 @@ inline Price::Price(int dollar, int cent) : price(dollar * REPRESENTATION_CENT +
 inline int Price::GetPrice() const {
     return price;
 }
-inline double Price::GetPriceDollar() const{
-    return ((double )price)/REPRESENTATION_CENT;
+
+inline double Price::GetPriceDollar() const {
+    return ((double) price) / REPRESENTATION_CENT;
 }
 
 inline Price &Price::operator=(const Price &other) {
@@ -55,19 +94,21 @@ inline Price &Price::operator=(const Price &other) {
 }
 
 inline Price &Price::operator=(int dollar) {
-   price = dollar * REPRESENTATION_CENT;
+    price = dollar * REPRESENTATION_CENT;
     return *this;
 }
 
-/* operator overload methods*/
+/****Binary arithmetic operators***/
 inline bool operator==(Price &price1, Price &price2) {
     return price1.GetPrice() == price2.GetPrice();
 
 }
+
 inline bool operator!=(Price &price1, Price &price2) {
-    return price1.GetPrice()!= price2.GetPrice();
+    return price1.GetPrice() != price2.GetPrice();
 
 }
+
 inline bool operator<=(Price &price1, Price &price2) {
     return price1.GetPrice() <= price2.GetPrice();
 
@@ -92,7 +133,7 @@ inline std::ostream &operator<<(std::ostream &stream, const Price &price1) {
 }
 
 inline Price &Price::operator++() {
-    price+=REPRESENTATION_CENT;
+    price += REPRESENTATION_CENT;
     return *this;
 }
 
@@ -104,13 +145,95 @@ inline Price Price::operator++(int) {
 
 
 inline Price &Price::operator--() {
-    price-=REPRESENTATION_CENT;
+    price -= REPRESENTATION_CENT;
     return *this;
 }
 
 inline Price Price::operator--(int) {
     Price temp = *this;
     --*this;
+    return temp;
+}
+
+/***operators + ***/
+inline Price &Price::operator+=(const Price &other) {
+    price += other.price;
+    return *this;
+}
+
+inline Price &Price::operator+=(int val) {
+    price += val * REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator+(const Price &other) {
+    Price temp = *this;
+
+    temp.price += other.price;
+    return temp;
+
+}
+
+inline Price Price::operator+(int val) {
+    Price temp = *this;
+    temp.price += val * REPRESENTATION_CENT;
+
+    return temp;
+
+
+}
+
+/***operators - ***/
+inline Price &Price::operator-=(const Price &other) {
+    price -= other.price;
+    return *this;
+}
+
+inline Price &Price::operator-=(int val) {
+    price -= val * REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator-(const Price &other) {
+    Price temp = *this;
+
+    temp.price -= other.price;
+    return temp;
+
+}
+
+inline Price Price::operator-(int val) {
+    Price temp = *this;
+    temp.price -= val * REPRESENTATION_CENT;
+
+    return temp;
+}
+
+/***operators * ***/
+inline Price &Price::operator*=(const Price &other) {
+    price *= other.price;
+    price/=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price &Price::operator*=(int val) {
+    price *= val * REPRESENTATION_CENT;
+    price/=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator*(const Price &other) {
+    Price temp = *this;
+    temp.price *= other.price;
+    temp.price/=REPRESENTATION_CENT;
+    return temp;
+
+}
+
+inline Price Price::operator*(int val) {
+    Price temp = *this;
+    temp.price *= val * REPRESENTATION_CENT;
+    temp.price/=REPRESENTATION_CENT;
     return temp;
 }
 
