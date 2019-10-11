@@ -23,15 +23,15 @@ public:
     friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice);
 
     TemplatePrice<T> &operator+(const TemplatePrice<T> &other);
-/*
+
     // Declare prefix and postfix increment operators.
     TemplatePrice<T> &operator++();       // Prefix increment operator.
-    TemplatePrice<T> operator++( T);     // Postfix increment operator.
+    TemplatePrice<T> operator++( int);     // Postfix increment operator.
 
     // Declare prefix and postfix decrement operators.
     TemplatePrice<T> &operator--();       // Prefix decrement operator.
-    TemplatePrice<T> operator--( T);     // Postfix decrement operator
-*/
+    TemplatePrice<T> operator--( int);     // Postfix decrement operator
+
 
 
 private:
@@ -105,14 +105,14 @@ inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &te
     return stream << "TemplatePrice: " <<  templatePrice1.price<< std::endl;
 
 }
-/*
+
 template <typename T>
 inline TemplatePrice<T> &TemplatePrice<T>::operator++() {
     price+=REPRESENTATION_CENT;
     return *this;
 }
 template <typename T>
-inline TemplatePrice<T> TemplatePrice<T>::operator++( T) {
+inline TemplatePrice<T> TemplatePrice<T>::operator++( int) {
     TemplatePrice temp = *this;
     ++*this;
     return temp;
@@ -124,11 +124,11 @@ inline TemplatePrice<T> &TemplatePrice<T>::operator--() {
     return *this;
 }
 template <typename T>
-inline TemplatePrice<T> TemplatePrice<T>::operator--( T) {
+inline TemplatePrice<T> TemplatePrice<T>::operator--( int) {
     TemplatePrice temp = *this;
     --*this;
     return temp;
 }
 
-*/
+
 #endif //CPP_FIXED_POINT_SHOAMCO_TEMPLATETemplatePrice_H

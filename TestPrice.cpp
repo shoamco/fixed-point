@@ -49,6 +49,17 @@ TEST(PriceTests, postfixPostfixIncrementOperatorPrice) {
 
 
 }
+TEST(PriceTests, postfixPostfixdecreaseOperatorPrice) {
+    Price p1(5);
+    --p1;
+
+    ASSERT_TRUE(p1.GetPrice() == 400);
+    p1--;
+
+    ASSERT_TRUE(p1.GetPrice() == 300);
+
+
+}
 
 TEST(PriceTests, GetPriceDollar) {
     Price p1(5, 5);
@@ -106,6 +117,32 @@ TEST(TemplatePriceTests, OpertorOverlodingPrice) {
      ASSERT_TRUE(p2 >= p1);
      ASSERT_FALSE(p2 <= p4);
     ASSERT_TRUE(p5 >= p3);
+
+
+}
+TEST(TemplatePriceTests, postfixPostfixIncrementOperatorPrice) {
+    TemplatePrice<int> p1(5, 2);
+    TemplatePrice<float> p2(5.1, 2);
+    ++p1;
+    ASSERT_TRUE(p1.GetPrice() == 602);
+    p1++;
+    ASSERT_TRUE(p1.GetPrice() == 702);
+
+    p2++;
+    ASSERT_TRUE(p2.GetPrice() == 612);
+
+
+}
+TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
+    TemplatePrice<int> p1(5, 2);
+    TemplatePrice<float> p2(5.1, 2);
+    --p1;
+    ASSERT_TRUE(p1.GetPrice() == 402);
+    p1--;
+    ASSERT_TRUE(p1.GetPrice() == 302);
+
+    p2--;
+    ASSERT_TRUE(p2.GetPrice() == 412);
 
 
 }
