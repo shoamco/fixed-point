@@ -319,3 +319,79 @@ TEST(TemplatePriceTests, MinusOperators) {
 
 
 }
+
+
+TEST(TemplatePriceTests, MultiplicationOperator) {
+    TemplatePrice<int> p1(5);
+    TemplatePrice<int> p2(3);
+
+    p1 *= p2;
+    ASSERT_TRUE(p1.GetPrice() == 1500);
+
+
+    p2 *= 3;
+    ASSERT_TRUE(p2.GetPrice() == 900);
+
+    p2 = p2 * p1;
+    ASSERT_TRUE(p2.GetPrice() == 13500);
+
+
+    p1 = p1 * 0;
+    ASSERT_TRUE(p1.GetPrice() == 0);
+
+
+}
+
+TEST(TemplatePriceTests, DivideOperator) {
+    TemplatePrice<int> p1(6);
+    TemplatePrice<int> p2(3);
+
+    p1 /= p2;
+
+
+    ASSERT_TRUE(p1.GetPrice() == 200);
+
+    p2 = 12;
+    p2 /= 2;
+    ASSERT_TRUE(p2.GetPrice() == 600);
+
+    p2 = p2 / p1;
+//    std::cout << p2;
+
+    ASSERT_TRUE(p2.GetPrice() == 300);
+    p1 = 5;
+    p2 = 2;
+    p1 /= p2;
+    ASSERT_TRUE(p1.GetPrice() == 250);
+
+    p2 = 3;
+    p2 = p2 / 3;
+    ASSERT_TRUE(p2.GetPrice() == 100);
+    p2 = p2 / 3;
+    ASSERT_TRUE(p2.GetPrice() == 33);
+
+}
+
+
+TEST(TemplatePriceTests, ModuloOperator) {
+    TemplatePrice<int> p1(6);
+    TemplatePrice<int> p2(3);
+    TemplatePrice<int> p3(4);
+
+
+    p1 %= p3;
+    ASSERT_TRUE(p1.GetPrice() == (6 % 4) * 100);
+
+    p1 = 6;
+    p1 %= 4;
+    ASSERT_TRUE(p1.GetPrice() == (6 % 4) * 100);
+
+    p1 = 10;
+    p1 = p1 % 4;
+    ASSERT_TRUE(p1.GetPrice() == (10 % 4) * 100);
+
+    p1 = 10;
+    p1 = p1 % p3;
+    ASSERT_TRUE(p1.GetPrice() == (10 % 4) * 100);
+
+}

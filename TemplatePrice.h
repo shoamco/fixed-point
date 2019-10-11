@@ -50,36 +50,36 @@ public:
     TemplatePrice<T> operator-(const   TemplatePrice<T> &other);
 
     TemplatePrice<T> operator-(int val);
-//
-///***   operators *   ***/
-//
-//    TemplatePrice<T> &operator*=(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> &operator*=(int val);
-//
-//    TemplatePrice<T> operator*(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> operator*(int val);
-//
+
+/***   operators *   ***/
+
+    TemplatePrice<T> &operator*=(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> &operator*=(int val);
+
+    TemplatePrice<T> operator*(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> operator*(int val);
+
 ///***   operators /   ***/
-//
-//    TemplatePrice<T> &operator/=(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> &operator/=(int val);
-//
-//    TemplatePrice<T> operator/(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> operator/(int val);
-//
-//    /***   operators %   ***/
-//
-//    TemplatePrice<T> &operator%=(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> &operator%=(int val);
-//
-//    TemplatePrice<T> operator%(const   TemplatePrice<T> &other);
-//
-//    TemplatePrice<T> operator%(int val);
+
+    TemplatePrice<T> &operator/=(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> &operator/=(int val);
+
+    TemplatePrice<T> operator/(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> operator/(int val);
+
+    /***   operators %   ***/
+
+    TemplatePrice<T> &operator%=(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> &operator%=(int val);
+
+    TemplatePrice<T> operator%(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> operator%(int val);
 
 
 
@@ -238,4 +238,97 @@ inline TemplatePrice<T> TemplatePrice<T>::operator-(int val) {
     return temp;
 }
 
+/***operators * ***/
+
+template <typename T>
+inline TemplatePrice<T>  &TemplatePrice<T> ::operator*=(const TemplatePrice<T>  &other) {
+    price *= other.price;
+    price /= REPRESENTATION_CENT;
+    return *this;
+}
+
+template <typename T>
+inline TemplatePrice<T>  &TemplatePrice<T> ::operator*=(int val) {
+    price *= val * REPRESENTATION_CENT;
+    price /= REPRESENTATION_CENT;
+    return *this;
+}
+
+template <typename T>
+inline TemplatePrice<T>  TemplatePrice<T> ::operator*(const TemplatePrice<T>  &other) {
+    TemplatePrice<T>  temp = *this;
+    temp.price *= other.price;
+    temp.price /= REPRESENTATION_CENT;
+    return temp;
+
+}
+
+template <typename T>
+inline TemplatePrice<T>  TemplatePrice<T> ::operator*(int val) {
+    TemplatePrice<T>  temp = *this;
+    temp.price *= val * REPRESENTATION_CENT;
+    temp.price /= REPRESENTATION_CENT;
+    return temp;
+}
+
+/***operators / ***/
+
+template <typename T>
+inline TemplatePrice<T>  &TemplatePrice<T>::operator/=(const TemplatePrice<T>  &other) {
+    price = (price * REPRESENTATION_CENT )/ (other.price);
+    return *this;
+}
+
+template <typename T>
+inline TemplatePrice<T>  &TemplatePrice<T> ::operator/=(int val) {
+    price = (price * REPRESENTATION_CENT) / (val * REPRESENTATION_CENT);
+    return *this;
+}
+
+template <typename T>
+inline TemplatePrice<T>  TemplatePrice<T> ::operator/(const TemplatePrice<T>  &other) {
+    TemplatePrice<T>  temp = *this;
+    temp.price = (temp.price * REPRESENTATION_CENT )/ (other.price);
+
+    return temp;
+
+}
+
+template <typename T>
+inline TemplatePrice<T>  TemplatePrice<T> ::operator/(int val) {
+    TemplatePrice<T>  temp = *this;
+    temp.price = (temp.price * REPRESENTATION_CENT )/ (val * REPRESENTATION_CENT);
+    return temp;
+}
+
+/***operators % ***/
+
+template <typename T>
+inline  TemplatePrice<T>  & TemplatePrice<T> ::operator%=(const  TemplatePrice<T>  &other) {
+    price = (price  )% (other.price);
+
+    return *this;
+}
+
+template <typename T>
+inline  TemplatePrice<T>  & TemplatePrice<T> ::operator%=(int val) {
+    price = (price ) % (val * REPRESENTATION_CENT);
+
+    return *this;
+}
+
+template <typename T>
+inline  TemplatePrice<T>   TemplatePrice<T> ::operator%(const  TemplatePrice<T>  &other) {
+    TemplatePrice<T>  temp = *this;
+    temp.price = (temp.price  )% (other.price);
+    return temp;
+
+}
+
+template <typename T>
+inline  TemplatePrice<T>   TemplatePrice<T> ::operator%(int val) {
+    TemplatePrice<T>  temp = *this;
+    temp.price = (temp.price  )%(val * REPRESENTATION_CENT);
+    return temp;
+}
 #endif //CPP_FIXED_POINT_SHOAMCO_TEMPLATETemplatePrice_H
