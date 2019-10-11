@@ -266,6 +266,6 @@ TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
 
     p2--;
     ASSERT_TRUE(p2.GetPrice() == 412);
-
+std::cout<<p1;
 
 }

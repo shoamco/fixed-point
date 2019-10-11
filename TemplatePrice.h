@@ -102,7 +102,7 @@ inline bool operator>(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templa
 }
 template <typename T>
 inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice1) {
-    return stream << "TemplatePrice: " <<  templatePrice1.price<< std::endl;
+    return stream << "Price: " << templatePrice1.price<< std::endl;
 
 }
 
