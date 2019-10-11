@@ -104,7 +104,6 @@ template <typename T >
 template <typename T2 >
 inline TemplatePrice<T> &TemplatePrice<T>::operator=(const TemplatePrice<T2> &other) {
 
-
    /*  price = static_cast<T>(other.price);*///todo:casting from T2 TO t
 
     return *this;
