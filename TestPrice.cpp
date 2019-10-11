@@ -60,7 +60,7 @@ TEST(PriceTests, postfixPostfixdecreaseOperatorPrice) {
 
 
 }
-TEST(PriceTests, BinaryAithmeticOperatorsPlus) {
+TEST(PriceTests, PlusOperators) {
     Price p1(5);
     Price p2(3);
 
@@ -80,7 +80,7 @@ TEST(PriceTests, BinaryAithmeticOperatorsPlus) {
 
 
 }
-TEST(PriceTests, BinaryAithmeticOperatorsMinus) {
+TEST(PriceTests, MinusOperators) {
     Price p1(5);
     Price p2(3);
 
@@ -101,7 +101,7 @@ TEST(PriceTests, BinaryAithmeticOperatorsMinus) {
 
 }
 
-TEST(PriceTests, BinaryAithmeticOperatorsMultiplication) {
+TEST(PriceTests, MultiplicationOperator) {
     Price p1(5);
     Price p2(3);
 
@@ -118,6 +118,27 @@ TEST(PriceTests, BinaryAithmeticOperatorsMultiplication) {
 
     p1=p1*0;
     ASSERT_TRUE(p1.GetPrice() == 0);
+
+
+}
+
+TEST(PriceTests, DivideOperator) {
+    Price p1(6);
+    Price p2(3);
+
+    p1/=p2;
+    ASSERT_TRUE(p1.GetPrice() ==200);
+
+    p2=12;
+    p2/=2;
+    ASSERT_TRUE(p2.GetPrice() == 600);
+
+    p2=p2/p1;
+    ASSERT_TRUE(p2.GetPrice() == 300);
+
+
+    p2=p2/3;
+    ASSERT_TRUE(p2.GetPrice() == 100);
 
 
 }

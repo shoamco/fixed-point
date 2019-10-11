@@ -50,13 +50,21 @@ public:
 
     Price operator*(int val);
 
+/***   operators /   ***/
 
     Price &operator/=(const Price &other);
+
+    Price &operator/=(int val);
+
+    Price operator/(const Price &other);
+
+    Price operator/(int val);
+
 
     Price &operator%=(const Price &other);
 
 
-    Price operator/(int val);
+
 
     Price operator%(int val);
 
@@ -234,6 +242,34 @@ inline Price Price::operator*(int val) {
     Price temp = *this;
     temp.price *= val * REPRESENTATION_CENT;
     temp.price/=REPRESENTATION_CENT;
+    return temp;
+}
+
+/***operators / ***/
+inline Price &Price::operator/=(const Price &other) {
+    price /= other.price;
+    price*=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price &Price::operator/=(int val) {
+    price /= val * REPRESENTATION_CENT;
+    price*=REPRESENTATION_CENT;
+    return *this;
+}
+
+inline Price Price::operator/(const Price &other) {
+    Price temp = *this;
+    temp.price /= other.price;
+    temp.price*=REPRESENTATION_CENT;
+    return temp;
+
+}
+
+inline Price Price::operator/(int val) {
+    Price temp = *this;
+    temp.price /= val * REPRESENTATION_CENT;
+    temp.price*=REPRESENTATION_CENT;
     return temp;
 }
 
