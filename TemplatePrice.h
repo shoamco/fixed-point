@@ -11,25 +11,27 @@ class TemplatePrice {
 public:
     TemplatePrice( T dollar = 0,  T cent = 0);
 
-    T GetTemplatePrice() const;
+    T GetPrice() const;
+    template <typename T2 >
+    TemplatePrice<T> &operator=(const TemplatePrice<T2>  &other);
+    TemplatePrice<T> &operator=(const TemplatePrice<T>  &other);
 
-    TemplatePrice &operator=(const TemplatePrice &other);
-
-    TemplatePrice &operator=( T dollar);
+    TemplatePrice<T> &operator=( T dollar);
+    double GetPriceDollar() const;
 
     /* TemplatePrice &operator=( T dollar);*/
-    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice &templatePrice);
+    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice);
 
-    TemplatePrice &operator+(const TemplatePrice &other);
+    TemplatePrice<T> &operator+(const TemplatePrice<T> &other);
 /*
     // Declare prefix and postfix increment operators.
-    TemplatePrice &operator++();       // Prefix increment operator.
-    TemplatePrice operator++( T);     // Postfix increment operator.
+    TemplatePrice<T> &operator++();       // Prefix increment operator.
+    TemplatePrice<T> operator++( T);     // Postfix increment operator.
 
     // Declare prefix and postfix decrement operators.
-    TemplatePrice &operator--();       // Prefix decrement operator.
-    TemplatePrice operator--( T);     // Postfix decrement operator
-    */
+    TemplatePrice<T> &operator--();       // Prefix decrement operator.
+    TemplatePrice<T> operator--( T);     // Postfix decrement operator
+*/
 
 
 private:
@@ -41,73 +43,92 @@ inline TemplatePrice<T>::TemplatePrice( T dollar,  T cent) : price(dollar * REPR
 }
 
 template <typename T>
- inline   T TemplatePrice<T>::GetTemplatePrice() const {
+ inline   T TemplatePrice<T>::GetPrice() const {
     return   price;
 }
+template <typename T>
+inline double TemplatePrice<T>::GetPriceDollar() const{
+    return ((double )price)/REPRESENTATION_CENT;
+}
+
+template <typename T >
+template <typename T2 >
+inline TemplatePrice<T> &TemplatePrice<T>::operator=(const TemplatePrice<T2> &other) {
+
+
+   /*  price = static_cast<T>(other.price);*///todo:casting from T2 TO t
+
+    return *this;
+}
+template <typename T >
+inline TemplatePrice<T> &TemplatePrice<T>::operator=(const TemplatePrice<T> &other) {
+    price = static_cast<T>(other.price);
+    return *this;
+}
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator=( T dollar) {
+    this->price = dollar * REPRESENTATION_CENT;
+    return *this;
+}
+
+template <typename T>
+inline bool operator==(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() == templatePrice2.GetPrice();
+
+}
+
+template <typename T>
+inline bool operator!=(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() != templatePrice2.GetPrice();
+
+}
+template <typename T>
+inline bool operator<=(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() <= templatePrice2.GetPrice();
+
+}
+template <typename T>
+inline bool operator>=(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() >= templatePrice2.GetPrice();
+
+}
+template <typename T>
+inline bool operator<(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() < templatePrice2.GetPrice();
+}
+template <typename T>
+inline bool operator>(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
+    return templatePrice1.GetPrice() > templatePrice2.GetPrice();
+}
+template <typename T>
+inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice1) {
+    return stream << "TemplatePrice: " <<  templatePrice1.price<< std::endl;
+
+}
 /*
-inline TemplatePrice &TemplatePrice::operator=(const TemplatePrice &other) {
-    if (this != &other) {
-        this->TemplatePrice = other.TemplatePrice;
-    }
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator++() {
+    price+=REPRESENTATION_CENT;
     return *this;
 }
-
-inline TemplatePrice &TemplatePrice::operator=( T dollar) {
-    this->TemplatePrice = dollar * REPRESENTATION_CENT;
-    return *this;
-}
-
-
-inline bool operator==(TemplatePrice &TemplatePrice1, TemplatePrice &TemplatePrice2) {
-    return TemplatePrice1 == TemplatePrice2;
-
-}
-
-inline bool operator<=(TemplatePrice &TemplatePrice1, TemplatePrice &TemplatePrice2) {
-    return TemplatePrice1 <= TemplatePrice2;
-
-}
-
-inline bool operator>=(TemplatePrice &TemplatePrice1, TemplatePrice &TemplatePrice2) {
-    return TemplatePrice1 >= TemplatePrice2;
-
-}
-
-inline bool operator<(TemplatePrice &TemplatePrice1, TemplatePrice &TemplatePrice2) {
-    return TemplatePrice1 < TemplatePrice2;
-}
-
-inline bool operator>(TemplatePrice &TemplatePrice1, TemplatePrice &TemplatePrice2) {
-    return TemplatePrice1 > TemplatePrice2;
-}
-
-inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice &TemplatePrice1) {
-    return stream << "TemplatePrice: " << TemplatePrice1 << std::endl;
-
-}
-
-inline TemplatePrice &TemplatePrice::operator++() {
-    TemplatePrice+=REPRESENTATION_CENT;
-    return *this;
-}
-
-inline TemplatePrice TemplatePrice::operator++( T) {
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator++( T) {
     TemplatePrice temp = *this;
     ++*this;
     return temp;
 }
 
-
-inline TemplatePrice &TemplatePrice::operator--() {
-    TemplatePrice-=REPRESENTATION_CENT;
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator--() {
+    price-=REPRESENTATION_CENT;
     return *this;
 }
-
-inline TemplatePrice TemplatePrice::operator--( T) {
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator--( T) {
     TemplatePrice temp = *this;
     --*this;
     return temp;
 }
-*/
 
+*/
 #endif //CPP_FIXED_POINT_SHOAMCO_TEMPLATETemplatePrice_H

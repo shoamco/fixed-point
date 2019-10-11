@@ -12,6 +12,7 @@ public:
     Price(int dollar = 0, int cent = 0);
 
     int GetPrice() const;
+    double GetPriceDollar() const;
 
     Price &operator=(const Price &other);
 
@@ -42,41 +43,47 @@ inline Price::Price(int dollar, int cent) : price(dollar * REPRESENTATION_CENT +
 inline int Price::GetPrice() const {
     return price;
 }
+inline double Price::GetPriceDollar() const{
+    return ((double )price)/REPRESENTATION_CENT;
+}
 
 inline Price &Price::operator=(const Price &other) {
     if (this != &other) {
-        this->price = other.price;
+        price = other.price;
     }
     return *this;
 }
 
 inline Price &Price::operator=(int dollar) {
-    this->price = dollar * REPRESENTATION_CENT;
+   price = dollar * REPRESENTATION_CENT;
     return *this;
 }
 
 /* operator overload methods*/
 inline bool operator==(Price &price1, Price &price2) {
-    return price1 == price2;
+    return price1.GetPrice() == price2.GetPrice();
 
 }
+inline bool operator!=(Price &price1, Price &price2) {
+    return price1.GetPrice()!= price2.GetPrice();
 
+}
 inline bool operator<=(Price &price1, Price &price2) {
-    return price1 <= price2;
+    return price1.GetPrice() <= price2.GetPrice();
 
 }
 
 inline bool operator>=(Price &price1, Price &price2) {
-    return price1 >= price2;
+    return price1.GetPrice() >= price2.GetPrice();
 
 }
 
 inline bool operator<(Price &price1, Price &price2) {
-    return price1 < price2;
+    return price1.GetPrice() < price2.GetPrice();
 }
 
 inline bool operator>(Price &price1, Price &price2) {
-    return price1 > price2;
+    return price1.GetPrice() > price2.GetPrice();
 }
 
 inline std::ostream &operator<<(std::ostream &stream, const Price &price1) {
