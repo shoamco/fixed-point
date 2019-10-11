@@ -49,6 +49,7 @@ TEST(PriceTests, postfixPostfixIncrementOperatorPrice) {
 
 
 }
+
 TEST(PriceTests, postfixPostfixdecreaseOperatorPrice) {
     Price p1(5);
     --p1;
@@ -60,42 +61,44 @@ TEST(PriceTests, postfixPostfixdecreaseOperatorPrice) {
 
 
 }
+
 TEST(PriceTests, PlusOperators) {
     Price p1(5);
     Price p2(3);
 
-    p1+=p2;
+    p1 += p2;
     ASSERT_TRUE(p1.GetPrice() == 800);
 
 
-    p2+=3;
+    p2 += 3;
     ASSERT_TRUE(p2.GetPrice() == 600);
 
-    p2=p1+p1;
+    p2 = p1 + p1;
     ASSERT_TRUE(p2.GetPrice() == 1600);
 
 
-    p1=p1+2;
+    p1 = p1 + 2;
     ASSERT_TRUE(p1.GetPrice() == 1000);
 
 
 }
+
 TEST(PriceTests, MinusOperators) {
     Price p1(5);
     Price p2(3);
 
-    p1-=p2;
+    p1 -= p2;
     ASSERT_TRUE(p1.GetPrice() == 200);
 
 
-    p2-=3;
+    p2 -= 3;
     ASSERT_TRUE(p2.GetPrice() == 0);
-    p2=5;
-    p2=p2-p1;
+    p2 = 5;
+    p2 = p2 - p1;
     ASSERT_TRUE(p2.GetPrice() == 300);
 
 
-    p1=p1-1;
+    p1 = p1 - 1;
     ASSERT_TRUE(p1.GetPrice() == 100);
 
 
@@ -105,18 +108,18 @@ TEST(PriceTests, MultiplicationOperator) {
     Price p1(5);
     Price p2(3);
 
-    p1*=p2;
+    p1 *= p2;
     ASSERT_TRUE(p1.GetPrice() == 1500);
 
 
-    p2*=3;
+    p2 *= 3;
     ASSERT_TRUE(p2.GetPrice() == 900);
 
-    p2=p2*p1;
+    p2 = p2 * p1;
     ASSERT_TRUE(p2.GetPrice() == 13500);
 
 
-    p1=p1*0;
+    p1 = p1 * 0;
     ASSERT_TRUE(p1.GetPrice() == 0);
 
 
@@ -126,28 +129,65 @@ TEST(PriceTests, DivideOperator) {
     Price p1(6);
     Price p2(3);
 
-    p1/=p2;
-    ASSERT_TRUE(p1.GetPrice() ==200);
+    p1 /= p2;
 
-    p2=12;
-    p2/=2;
+
+    ASSERT_TRUE(p1.GetPrice() == 200);
+
+    p2 = 12;
+    p2 /= 2;
     ASSERT_TRUE(p2.GetPrice() == 600);
 
-    p2=p2/p1;
+    p2 = p2 / p1;
+    std::cout << p2;
+
     ASSERT_TRUE(p2.GetPrice() == 300);
+    p1 = 5;
+    p2 = 2;
+    p1 /= p2;
+    ASSERT_TRUE(p1.GetPrice() == 250);
 
-
-    p2=p2/3;
+    p2 = 3;
+    p2 = p2 / 3;
     ASSERT_TRUE(p2.GetPrice() == 100);
-
+    p2 = p2 / 3;
+    ASSERT_TRUE(p2.GetPrice() == 33);
 
 }
+TEST(PriceTests,ModuloOperator) {
+    Price p1(6);
+    Price p2(3);
+    Price p3(4);
+
+
+    p1 %= p3;
+    ASSERT_TRUE(p1.GetPrice() == (6%4)*100);
+
+    p1=6;
+    p1 %= 4;
+    ASSERT_TRUE(p1.GetPrice() == (6%4)*100);
+
+    p1=10;
+    p1=p1%4;
+    ASSERT_TRUE(p1.GetPrice() == (10%4)*100);
+
+    p1=10;
+    p1=p1%p3;
+    ASSERT_TRUE(p1.GetPrice() == (10%4)*100);
+
+}
+
 TEST(PriceTests, GetPriceDollar) {
     Price p1(5, 5);
     ASSERT_TRUE(p1.GetPriceDollar() == (double) 5.05);
 
 }
-/*********** Phase II- class Template Price ***********/
+/*********************************************
+ *                                           *
+ *  Phase II- test for class Template Price  *
+ *                                           *
+**********************************************/
+
 
 TEST(TemplatePriceTests, CTOR_TemplatePrice) {
     TemplatePrice<int> p1(5);
@@ -193,14 +233,15 @@ TEST(TemplatePriceTests, OpertorOverlodingPrice) {
     TemplatePrice<float> p3(5.1, 2);
     TemplatePrice<int> p4(5);
     TemplatePrice<float> p5(5.1, 7);
-     ASSERT_TRUE(p1 == p4);
-     ASSERT_TRUE(p2 != p1);
-     ASSERT_TRUE(p2 >= p1);
-     ASSERT_FALSE(p2 <= p4);
+    ASSERT_TRUE(p1 == p4);
+    ASSERT_TRUE(p2 != p1);
+    ASSERT_TRUE(p2 >= p1);
+    ASSERT_FALSE(p2 <= p4);
     ASSERT_TRUE(p5 >= p3);
 
 
 }
+
 TEST(TemplatePriceTests, postfixPostfixIncrementOperatorPrice) {
     TemplatePrice<int> p1(5, 2);
     TemplatePrice<float> p2(5.1, 2);
@@ -214,6 +255,7 @@ TEST(TemplatePriceTests, postfixPostfixIncrementOperatorPrice) {
 
 
 }
+
 TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
     TemplatePrice<int> p1(5, 2);
     TemplatePrice<float> p2(5.1, 2);

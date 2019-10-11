@@ -21,7 +21,9 @@ public:
 
     /* Price &operator=(int dollar);*/
     friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
+
     /****Binary arithmetic operators***/
+
     /***operators + ***/
     Price &operator+=(const Price &other);
 
@@ -60,11 +62,13 @@ public:
 
     Price operator/(int val);
 
+    /***   operators %   ***/
 
     Price &operator%=(const Price &other);
 
+    Price &operator%=(int val);
 
-
+    Price operator%(const Price &other);
 
     Price operator%(int val);
 
@@ -136,7 +140,7 @@ inline bool operator>(Price &price1, Price &price2) {
 }
 
 inline std::ostream &operator<<(std::ostream &stream, const Price &price1) {
-    return stream << "price: " << price1 << std::endl;
+    return stream << "price: " << price1.price << std::endl;
 
 }
 
@@ -220,20 +224,20 @@ inline Price Price::operator-(int val) {
 /***operators * ***/
 inline Price &Price::operator*=(const Price &other) {
     price *= other.price;
-    price/=REPRESENTATION_CENT;
+    price /= REPRESENTATION_CENT;
     return *this;
 }
 
 inline Price &Price::operator*=(int val) {
     price *= val * REPRESENTATION_CENT;
-    price/=REPRESENTATION_CENT;
+    price /= REPRESENTATION_CENT;
     return *this;
 }
 
 inline Price Price::operator*(const Price &other) {
     Price temp = *this;
     temp.price *= other.price;
-    temp.price/=REPRESENTATION_CENT;
+    temp.price /= REPRESENTATION_CENT;
     return temp;
 
 }
@@ -241,36 +245,60 @@ inline Price Price::operator*(const Price &other) {
 inline Price Price::operator*(int val) {
     Price temp = *this;
     temp.price *= val * REPRESENTATION_CENT;
-    temp.price/=REPRESENTATION_CENT;
+    temp.price /= REPRESENTATION_CENT;
     return temp;
 }
 
 /***operators / ***/
 inline Price &Price::operator/=(const Price &other) {
-    price /= other.price;
-    price*=REPRESENTATION_CENT;
+    price = (price * REPRESENTATION_CENT )/ (other.price);
     return *this;
 }
 
 inline Price &Price::operator/=(int val) {
-    price /= val * REPRESENTATION_CENT;
-    price*=REPRESENTATION_CENT;
+    price = (price * REPRESENTATION_CENT) / (val * REPRESENTATION_CENT);
     return *this;
 }
 
 inline Price Price::operator/(const Price &other) {
     Price temp = *this;
-    temp.price /= other.price;
-    temp.price*=REPRESENTATION_CENT;
+    temp.price = (temp.price * REPRESENTATION_CENT )/ (other.price);
+
     return temp;
 
 }
 
 inline Price Price::operator/(int val) {
     Price temp = *this;
-    temp.price /= val * REPRESENTATION_CENT;
-    temp.price*=REPRESENTATION_CENT;
+    temp.price = (temp.price * REPRESENTATION_CENT )/ (val * REPRESENTATION_CENT);
     return temp;
 }
 
+
+/***operators % ***/
+inline Price &Price::operator%=(const Price &other) {
+    price = (price  )% (other.price);
+
+    return *this;
+}
+
+inline Price &Price::operator%=(int val) {
+    price = (price ) % (val * REPRESENTATION_CENT);
+    std::cout<<"in %= val"<<*this;
+    return *this;
+}
+
+inline Price Price::operator%(const Price &other) {
+    Price temp = *this;
+    temp.price = (temp.price  )% (other.price);
+    return temp;
+
+}
+
+inline Price Price::operator%(int val) {
+    Price temp = *this;
+    temp.price = (temp.price  )%(val * REPRESENTATION_CENT);
+    std::cout<<"in % val "<<temp;
+    return temp;
+}
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
