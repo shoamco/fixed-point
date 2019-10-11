@@ -154,26 +154,27 @@ TEST(PriceTests, DivideOperator) {
     ASSERT_TRUE(p2.GetPrice() == 33);
 
 }
-TEST(PriceTests,ModuloOperator) {
+
+TEST(PriceTests, ModuloOperator) {
     Price p1(6);
     Price p2(3);
     Price p3(4);
 
 
     p1 %= p3;
-    ASSERT_TRUE(p1.GetPrice() == (6%4)*100);
+    ASSERT_TRUE(p1.GetPrice() == (6 % 4) * 100);
 
-    p1=6;
+    p1 = 6;
     p1 %= 4;
-    ASSERT_TRUE(p1.GetPrice() == (6%4)*100);
+    ASSERT_TRUE(p1.GetPrice() == (6 % 4) * 100);
 
-    p1=10;
-    p1=p1%4;
-    ASSERT_TRUE(p1.GetPrice() == (10%4)*100);
+    p1 = 10;
+    p1 = p1 % 4;
+    ASSERT_TRUE(p1.GetPrice() == (10 % 4) * 100);
 
-    p1=10;
-    p1=p1%p3;
-    ASSERT_TRUE(p1.GetPrice() == (10%4)*100);
+    p1 = 10;
+    p1 = p1 % p3;
+    ASSERT_TRUE(p1.GetPrice() == (10 % 4) * 100);
 
 }
 
@@ -266,6 +267,55 @@ TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
 
     p2--;
     ASSERT_TRUE(p2.GetPrice() == 412);
-std::cout<<p1;
+    std::cout << p1.GetPrice();
+//   std::cout<<p1;
+
+}
+
+TEST(TemplatePriceTests, PlusOperators) {
+    TemplatePrice<int>  p1(5);
+    TemplatePrice<int>  p2(3);
+
+    p1 += p2;
+
+
+    ASSERT_TRUE(p1.GetPrice() == 800);
+
+
+    p2 += 3;
+    ASSERT_TRUE(p2.GetPrice() == 600);
+
+    p2 = p1 + p1;
+    ASSERT_TRUE(p2.GetPrice() == 1600);
+
+
+    p1 = p1 + 2;
+    ASSERT_TRUE(p1.GetPrice() == 1000);
+
+
+}
+
+TEST(TemplatePriceTests, MinusOperators) {
+    TemplatePrice<int>  p1(5);
+    TemplatePrice<int>  p2(3);
+    TemplatePrice<float >  p3(5.2);
+    TemplatePrice<float >  p4(3.1);
+
+    p1 -= p2;
+    ASSERT_TRUE(p1.GetPrice() == 200);
+
+    p3 -= p4;
+    ASSERT_TRUE(p3.GetPrice() == 210);
+
+    p2 -= 3;
+    ASSERT_TRUE(p2.GetPrice() == 0);
+    p2 = 5;
+    p2 = p2 - p1;
+    ASSERT_TRUE(p2.GetPrice() == 300);
+
+
+    p1 = p1 - 1;
+    ASSERT_TRUE(p1.GetPrice() == 100);
+
 
 }

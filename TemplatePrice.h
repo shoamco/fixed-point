@@ -20,9 +20,9 @@ public:
     double GetPriceDollar() const;
 
     /* TemplatePrice &operator=( T dollar);*/
-    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice);
+    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &price1);
 
-    TemplatePrice<T> &operator+(const TemplatePrice<T> &other);
+
 
     // Declare prefix and postfix increment operators.
     TemplatePrice<T> &operator++();       // Prefix increment operator.
@@ -31,6 +31,55 @@ public:
     // Declare prefix and postfix decrement operators.
     TemplatePrice<T> &operator--();       // Prefix decrement operator.
     TemplatePrice<T> operator--( int);     // Postfix decrement operator
+/****Binary arithmetic operators***/
+
+    /***operators + ***/
+    TemplatePrice<T> &operator+=(const TemplatePrice<T> &other);
+
+    TemplatePrice<T>  &operator+=(int val);
+
+
+    TemplatePrice<T> operator+(const   TemplatePrice<T> &other);
+    TemplatePrice<T> operator+(int val);
+
+    /***operators -***/
+    TemplatePrice<T> &operator-=(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> &operator-=(int val);
+
+    TemplatePrice<T> operator-(const   TemplatePrice<T> &other);
+
+    TemplatePrice<T> operator-(int val);
+//
+///***   operators *   ***/
+//
+//    TemplatePrice<T> &operator*=(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> &operator*=(int val);
+//
+//    TemplatePrice<T> operator*(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> operator*(int val);
+//
+///***   operators /   ***/
+//
+//    TemplatePrice<T> &operator/=(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> &operator/=(int val);
+//
+//    TemplatePrice<T> operator/(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> operator/(int val);
+//
+//    /***   operators %   ***/
+//
+//    TemplatePrice<T> &operator%=(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> &operator%=(int val);
+//
+//    TemplatePrice<T> operator%(const   TemplatePrice<T> &other);
+//
+//    TemplatePrice<T> operator%(int val);
 
 
 
@@ -101,8 +150,8 @@ inline bool operator>(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templa
     return templatePrice1.GetPrice() > templatePrice2.GetPrice();
 }
 template <typename T>
-inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &templatePrice1) {
-    return stream << "Price: " << templatePrice1.price<< std::endl;
+inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &price1) {
+    return stream << "price: " << price1.price << std::endl;
 
 }
 
@@ -130,5 +179,63 @@ inline TemplatePrice<T> TemplatePrice<T>::operator--( int) {
     return temp;
 }
 
+
+/***operators + ***/
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator+=(const TemplatePrice<T> &other) {
+    price += other.price;
+    return *this;
+}
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator+=(int val) {
+    price += val * REPRESENTATION_CENT;
+    return *this;
+}
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator+(const TemplatePrice<T> &other) {
+    TemplatePrice<T> temp = *this;
+
+    temp.price += other.price;
+    return temp;
+
+}
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator+(int val) {
+    TemplatePrice<T> temp = *this;
+    temp.price += val * REPRESENTATION_CENT;
+
+    return temp;
+
+
+}
+/***operators - ***/
+
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator-=(const TemplatePrice<T> &other) {
+    price -= other.price;
+    return *this;
+}
+template <typename T>
+inline TemplatePrice<T> &TemplatePrice<T>::operator-=(int val) {
+    price -= val * REPRESENTATION_CENT;
+    return *this;
+}
+
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator-(const TemplatePrice<T> &other) {
+    TemplatePrice<T> temp = *this;
+
+    temp.price -= other.price;
+    return temp;
+
+}
+
+template <typename T>
+inline TemplatePrice<T> TemplatePrice<T>::operator-(int val) {
+    TemplatePrice<T> temp = *this;
+    temp.price -= val * REPRESENTATION_CENT;
+
+    return temp;
+}
 
 #endif //CPP_FIXED_POINT_SHOAMCO_TEMPLATETemplatePrice_H
