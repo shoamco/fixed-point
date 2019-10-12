@@ -20,7 +20,8 @@ public:
     double GetPriceDollar() const;
 
     /* TemplatePrice &operator=( T dollar);*/
-    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &price1);
+    template <typename U >
+    friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<U> &price1);
 
 
 
@@ -148,8 +149,10 @@ template <typename T>
 inline bool operator>(TemplatePrice<T> &templatePrice1, TemplatePrice<T> &templatePrice2) {
     return templatePrice1.GetPrice() > templatePrice2.GetPrice();
 }
-template <typename T>
-inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<T> &price1) {
+
+template <typename U >
+//friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<U> &price1);
+inline std::ostream &operator<<(std::ostream &stream, const TemplatePrice<U> &price1) {
     return stream << "price: " << price1.price << std::endl;
 
 }
@@ -237,7 +240,7 @@ inline TemplatePrice<T> TemplatePrice<T>::operator-(int val) {
     return temp;
 }
 
-/***operators * ***/
+/***  operators *   ***/
 
 template <typename T>
 inline TemplatePrice<T>  &TemplatePrice<T> ::operator*=(const TemplatePrice<T>  &other) {

@@ -192,8 +192,8 @@ TEST(PriceTests, GetPriceDollar) {
 
 TEST(TemplatePriceTests, CTOR_TemplatePrice) {
     TemplatePrice<int> p1(5);
-    TemplatePrice<float> p2(5.5);
-    TemplatePrice<float> p3(4.3, 2.1);
+    TemplatePrice<float> p2(5.5f);
+    TemplatePrice<float> p3(4.3f, 2.1f);
     TemplatePrice<double> p4(-5, -2);
 
 
@@ -217,7 +217,7 @@ TEST(TemplatePriceTests, GetPriceDollar) {
 TEST(TemplatePriceTests, assignmentOpertorPrice) {
     TemplatePrice<int> p1(5, 5);
     TemplatePrice<int> p2(5, 2);
-    TemplatePrice<float> p3(5.1, 2);
+    TemplatePrice<float> p3(5.1f, 2.0f);
     p2 = p1;
     p3 = p1;
     ASSERT_TRUE(p2.GetPrice() == p1.GetPrice());
@@ -231,9 +231,9 @@ TEST(TemplatePriceTests, assignmentOpertorPrice) {
 TEST(TemplatePriceTests, OpertorOverlodingPrice) {
     TemplatePrice<int> p1(5);
     TemplatePrice<int> p2(5, 2);
-    TemplatePrice<float> p3(5.1, 2);
+    TemplatePrice<float> p3(5.1f, 2.0f);
     TemplatePrice<int> p4(5);
-    TemplatePrice<float> p5(5.1, 7);
+    TemplatePrice<float> p5(5.1f, 7.0f);
     ASSERT_TRUE(p1 == p4);
     ASSERT_TRUE(p2 != p1);
     ASSERT_TRUE(p2 >= p1);
@@ -245,7 +245,7 @@ TEST(TemplatePriceTests, OpertorOverlodingPrice) {
 
 TEST(TemplatePriceTests, postfixPostfixIncrementOperatorPrice) {
     TemplatePrice<int> p1(5, 2);
-    TemplatePrice<float> p2(5.1, 2);
+    TemplatePrice<float> p2(5.1f, 2.0f);
     ++p1;
     ASSERT_TRUE(p1.GetPrice() == 602);
     p1++;
@@ -259,7 +259,7 @@ TEST(TemplatePriceTests, postfixPostfixIncrementOperatorPrice) {
 
 TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
     TemplatePrice<int> p1(5, 2);
-    TemplatePrice<float> p2(5.1, 2);
+    TemplatePrice<float> p2(5.1f, 2.0f);
     --p1;
     ASSERT_TRUE(p1.GetPrice() == 402);
     p1--;
@@ -268,7 +268,7 @@ TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
     p2--;
     ASSERT_TRUE(p2.GetPrice() == 412);
     std::cout << p1.GetPrice();
-//   std::cout<<p1;
+
 
 }
 
@@ -298,8 +298,8 @@ TEST(TemplatePriceTests, PlusOperators) {
 TEST(TemplatePriceTests, MinusOperators) {
     TemplatePrice<int>  p1(5);
     TemplatePrice<int>  p2(3);
-    TemplatePrice<float >  p3(5.2);
-    TemplatePrice<float >  p4(3.1);
+    TemplatePrice<float >  p3(5.2f);
+    TemplatePrice<float >  p4(3.1f);
 
     p1 -= p2;
     ASSERT_TRUE(p1.GetPrice() == 200);
@@ -369,7 +369,7 @@ TEST(TemplatePriceTests, DivideOperator) {
     ASSERT_TRUE(p2.GetPrice() == 100);
     p2 = p2 / 3;
     ASSERT_TRUE(p2.GetPrice() == 33);
-
+    std::cout<<p1;
 }
 
 
