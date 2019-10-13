@@ -10,6 +10,7 @@
 class Price {
 public:
     Price(int dollar = 0, int cent = 0);
+    Price(const Price &other);
 
     int GetPrice() const;
 
@@ -23,7 +24,7 @@ public:
     friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
 
     /****Binary arithmetic operators***/
-
+//    Price operator-() const;/*unary -*/
     /***operators + ***/
     Price &operator+=(const Price &other);
 
@@ -87,6 +88,9 @@ private:
 };
 
 inline Price::Price(int dollar, int cent) : price(dollar * REPRESENTATION_CENT + cent) {
+
+}
+inline Price::Price(const Price &other) : price(other.price) {
 
 }
 
@@ -301,4 +305,10 @@ inline Price Price::operator%(int val) {
     std::cout<<"in % val "<<temp;
     return temp;
 }
+///***  unary -  ***/
+//Price Price::operator-()const{
+//    Price temp =*this;
+//    temp.price = price*(-1);
+//    return temp;
+//}
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
