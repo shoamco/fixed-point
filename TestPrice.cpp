@@ -1,16 +1,24 @@
 
 #include "TestPrice.h"
-/*********** Phase I- class Price ***********/
+
+/*********************************************
+ *                                           *
+ *       Phase I- test for class  Price      *
+ *                                           *
+**********************************************/
 
 TEST(PriceTests, CTOR_Price) {
     Price p1(5);
     Price p2(5, 2);
     Price p3(-5, 2);
     Price p4(-5, -2);
+    Price p5(p4);//copy CTOR
+
     ASSERT_TRUE(p1.GetPrice() == 500);
     ASSERT_TRUE(p2.GetPrice() == 502);
     ASSERT_TRUE(p3.GetPrice() == -498);
     ASSERT_TRUE(p4.GetPrice() == -502);
+    ASSERT_TRUE(p5.GetPrice() == -502);
 
 
 }
@@ -183,6 +191,19 @@ TEST(PriceTests, GetPriceDollar) {
     ASSERT_TRUE(p1.GetPriceDollar() == (double) 5.05);
 
 }
+
+TEST(PriceTests, UnaryOperator) {
+    Price p1(6);
+
+    std::cout << -p1;
+    ASSERT_TRUE(p1.GetPrice() == 600);
+    p1 = -p1;
+    ASSERT_TRUE(p1.GetPrice() == -600);
+
+}
+
+
+
 /*********************************************
  *                                           *
  *  Phase II- test for class Template Price  *
@@ -195,12 +216,14 @@ TEST(TemplatePriceTests, CTOR_TemplatePrice) {
     TemplatePrice<float> p2(5.5f);
     TemplatePrice<float> p3(4.3f, 2.1f);
     TemplatePrice<double> p4(-5, -2);
+    TemplatePrice<double> p5(p4);//copy CTOR
 
 
     ASSERT_TRUE(p1.GetPrice() == 500);
     ASSERT_TRUE(p2.GetPrice() == (float) 550.0);
-    /*ASSERT_TRUE(p3.GetTemplatePrice() == float() 432.1);*/
+//    ASSERT_TRUE(p3.GetPrice() ==  432.1f); todo:fix
     ASSERT_TRUE(p4.GetPrice() == (double) -502);
+    ASSERT_TRUE(p5.GetPrice() == (double) -502);
 
 
 }
@@ -273,8 +296,8 @@ TEST(TemplatePriceTests, postfixPostfixDecreaseOperatorPrice) {
 }
 
 TEST(TemplatePriceTests, PlusOperators) {
-    TemplatePrice<int>  p1(5);
-    TemplatePrice<int>  p2(3);
+    TemplatePrice<int> p1(5);
+    TemplatePrice<int> p2(3);
 
     p1 += p2;
 
@@ -296,10 +319,10 @@ TEST(TemplatePriceTests, PlusOperators) {
 }
 
 TEST(TemplatePriceTests, MinusOperators) {
-    TemplatePrice<int>  p1(5);
-    TemplatePrice<int>  p2(3);
-    TemplatePrice<float >  p3(5.2f);
-    TemplatePrice<float >  p4(3.1f);
+    TemplatePrice<int> p1(5);
+    TemplatePrice<int> p2(3);
+    TemplatePrice<float> p3(5.2f);
+    TemplatePrice<float> p4(3.1f);
 
     p1 -= p2;
     ASSERT_TRUE(p1.GetPrice() == 200);
@@ -369,7 +392,7 @@ TEST(TemplatePriceTests, DivideOperator) {
     ASSERT_TRUE(p2.GetPrice() == 100);
     p2 = p2 / 3;
     ASSERT_TRUE(p2.GetPrice() == 33);
-    std::cout<<p1;
+    std::cout << p1;
 }
 
 
@@ -393,5 +416,39 @@ TEST(TemplatePriceTests, ModuloOperator) {
     p1 = 10;
     p1 = p1 % p3;
     ASSERT_TRUE(p1.GetPrice() == (10 % 4) * 100);
+
+}
+
+TEST(TemplatePriceTests, UnaryOperator) {
+    TemplatePrice<int> p1(6);
+
+    std::cout << -p1;
+    ASSERT_TRUE(p1.GetPrice() == 600);
+    p1 = -p1;
+    ASSERT_TRUE(p1.GetPrice() == -600);
+
+}
+
+/*********************************************
+ *                                           *
+ *  Phase III- test for class FixedPoint *
+ *                                           *
+**********************************************/
+
+
+TEST(FixPointTests, CTOR_FixPoint) {
+    FixedPoint<int,2> p1(5);
+    FixedPoint<float,4> p2(5.5f);
+    FixedPoint<float,2> p3(4.3f);
+    FixedPoint<double,4> p4(-5);
+//TemplatePrice<double> p5(p4);//copy CTOR
+
+std::cout<<p1.GetPrice();
+    ASSERT_TRUE(p1.GetPrice() == 500);
+//ASSERT_TRUE(p2.GetPrice() == (float) 550.0);
+////    ASSERT_TRUE(p3.GetPrice() ==  432.1f); todo:fix
+//ASSERT_TRUE(p4.GetPrice() == (double) -502);
+//ASSERT_TRUE(p5.GetPrice() == (double) -502);
+
 
 }
