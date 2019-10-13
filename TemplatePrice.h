@@ -10,6 +10,7 @@ template <typename T>
 class TemplatePrice {
 public:
     TemplatePrice( T dollar = 0,  T cent = 0);
+    TemplatePrice( const TemplatePrice<T>  &other);
 
     T GetPrice() const;
     template <typename T2 >
@@ -91,6 +92,10 @@ template<typename T>
 inline TemplatePrice<T>::TemplatePrice( T dollar,  T cent) : price(dollar * REPRESENTATION_CENT + cent) {
 
 }
+template<typename T>
+inline TemplatePrice<T>::TemplatePrice(const TemplatePrice<T>  &other) : price(other.price) {
+
+}
 
 template <typename T>
  inline   T TemplatePrice<T>::GetPrice() const {
@@ -104,7 +109,7 @@ inline double TemplatePrice<T>::GetPriceDollar() const{
 template <typename T >
 template <typename T2 >
 inline TemplatePrice<T> &TemplatePrice<T>::operator=(const TemplatePrice<T2> &other) {
-
+//price= static_cast<double>(other.price);
    /*  price = static_cast<T>(other.price);*///todo:casting from T2 TO t
 
     return *this;
