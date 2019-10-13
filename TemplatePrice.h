@@ -24,6 +24,7 @@ public:
     template <typename U >
     friend std::ostream &operator<<(std::ostream &stream, const TemplatePrice<U> &price1);
 
+/****Binary arithmetic operators***/
 
 
     // Declare prefix and postfix increment operators.
@@ -33,8 +34,7 @@ public:
     // Declare prefix and postfix decrement operators.
     TemplatePrice<T> &operator--();       // Prefix decrement operator.
     TemplatePrice<T> operator--( int);     // Postfix decrement operator
-/****Binary arithmetic operators***/
-
+    TemplatePrice<T> operator-() const;/*unary -*/
     /***operators + ***/
     TemplatePrice<T> &operator+=(const TemplatePrice<T> &other);
 
@@ -336,6 +336,14 @@ template <typename T>
 inline  TemplatePrice<T>   TemplatePrice<T> ::operator%(int val) {
     TemplatePrice<T>  temp = *this;
     temp.price = (temp.price  )%(val * REPRESENTATION_CENT);
+    return temp;
+}
+
+/***  unary -  ***/
+template <typename T>
+inline  TemplatePrice<T>   TemplatePrice<T> ::operator-()const{
+    TemplatePrice<T> temp =*this;
+    temp.price = price*(-1);
     return temp;
 }
 #endif //CPP_FIXED_POINT_SHOAMCO_TEMPLATETemplatePrice_H
