@@ -24,7 +24,7 @@ public:
     friend std::ostream &operator<<(std::ostream &stream, const Price &price1);
 
     /****Binary arithmetic operators***/
-//    Price operator-() const;/*unary -*/
+    Price operator-() const;/*unary -*/
     /***operators + ***/
     Price &operator+=(const Price &other);
 
@@ -305,10 +305,10 @@ inline Price Price::operator%(int val) {
     std::cout<<"in % val "<<temp;
     return temp;
 }
-///***  unary -  ***/
-//Price Price::operator-()const{
-//    Price temp =*this;
-//    temp.price = price*(-1);
-//    return temp;
-//}
+/***  unary -  ***/
+inline Price Price::operator-()const{
+    Price temp =*this;
+    temp.price = price*(-1);
+    return temp;
+}
 #endif //CPP_FIXED_POINT_SHOAMCO_PRICE_H
