@@ -8,7 +8,21 @@
 #include <iostream>
 #include <math.h>
 //template<typename T = int, unsigned int SIZE = 4, typename Type = signed>
-template<typename T = int, unsigned int SIZE=2>
+//template<typename T = int, unsigned int SIZE=2>
+
+
+//T-type
+
+/**********************************************
+ *             class FixedPoint
+ *
+  |S-sing bit|I-integer part bit|-F-fractional part bit|
+
+ * @tparam T -: type
+ * @tparam I :The integer part bit
+ * @tparam F :The fractional part bit
+ *
+ * ********************************************/
 class FixedPoint {
 public:
     FixedPoint(T number);
