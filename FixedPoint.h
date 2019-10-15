@@ -39,7 +39,7 @@ template<typename T = int, unsigned int SIZE = 2>
     and does not change during the entire computation.
 
 
- *   To add or subtract two values of the same fixed-point type: it is sufficient to add or subtract the underlying
+ *   To add/subtract: it is sufficient to add or subtract the underlying
     integers, and keep their common scaling factor,The result can be exactly represented in the same type(as long as no
     overflow occurs)
     for example:
