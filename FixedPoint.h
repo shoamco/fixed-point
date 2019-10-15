@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <math.h>
+#include "FixedPointException.h"
+
+#define  BASE 10
 //template<typename T = int, unsigned int SIZE = 4, typename Type = signed>
 //template<typename T = int, unsigned int SIZE=2>
 
@@ -24,7 +27,7 @@
  * ********************************************/
 
 
-template< unsigned int SIZE ,typename T = int>
+
 /************************************************************************************************************
                              class FixedPoint
 
@@ -62,49 +65,147 @@ template< unsigned int SIZE ,typename T = int>
     rounded  361/100 =3.62
 
  * *************************************************************************************************************/
-
+template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
     FixedPoint(T number);
 
-//    FixedPoint(T dollar = 0, T cent = 0, T pip = 0);
-    FixedPoint(const FixedPoint< SIZE ,T> &other);
+    FixedPoint(const FixedPoint<SIZE, T> &other);
 
     int GetDataFixedPoint() const;
+
+    size_t GetScale() const;
+
     double GetDataInFormatFixedPoint() const;
 
+    FixedPoint<SIZE, T> &operator=(const FixedPoint<SIZE, T> &other);
+
+    FixedPoint<SIZE, T> &operator=(T dollar);
+
+    template<unsigned int SIZE2, typename U>
+    friend std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U> &fixedPoint);
+/****Binary arithmetic operators***/
 
 
-    FixedPoint<SIZE ,T> &operator=(const FixedPoint<SIZE ,T> &other);
+    // Declare prefix and postfix increment operators.
+    FixedPoint<SIZE, T> &operator++();       // Prefix increment operator.
+    FixedPoint<SIZE, T> operator++(int);     // Postfix increment operator.
 
-    FixedPoint<SIZE ,T> &operator=(T dollar);
+    // Declare prefix and postfix decrement operators.
+    FixedPoint<SIZE, T> &operator--();       // Prefix decrement operator.
+    FixedPoint<SIZE, T> operator--(int);     // Postfix decrement operator
+    /*unary -*/
+    FixedPoint<SIZE, T> operator-() const;
 
-    double GetPriceDollar() const;
+    /***operators + ***/
+    FixedPoint<SIZE, T> &operator+=(const FixedPoint<SIZE, T> &other);
 
-    FixedPoint<SIZE ,T> GetNumberFixedPoint() const;
+    FixedPoint<SIZE, T> &operator+=(T val);
 
-    /* TemplatePrice &operator=( T dollar);*/
-//    template<typename U>
-//    friend std::ostream &operator<<(std::ostream &stream, const FixedPoint<U> &price1);
+    FixedPoint<SIZE, T> operator+(const FixedPoint<SIZE, T> &other);
+
+    FixedPoint<SIZE, T> operator+(T val);
 
 private:
 
     int data;// fixed-point data type is an integer
+    size_t scale;
 
 };
 
-template<unsigned int SIZE ,typename T>
+template<unsigned int SIZE, typename T>
 inline
-FixedPoint<SIZE ,T>::FixedPoint(T num) : data(static_cast<int>(num*pow( 10,SIZE ))) {
+FixedPoint<SIZE, T>::FixedPoint(T num) : data(static_cast<int>(num * pow(BASE, SIZE))), scale(pow(BASE, SIZE)) {
 }
-template<unsigned int SIZE ,typename T>
-inline int FixedPoint<SIZE ,T>::GetDataFixedPoint()const{
+
+template<unsigned int SIZE, typename T>
+inline
+FixedPoint<SIZE, T>::FixedPoint(const FixedPoint<SIZE, T> &other):data(other.data), scale(other.scale) {
+
+}
+
+template<unsigned int SIZE, typename T>
+inline int FixedPoint<SIZE, T>::GetDataFixedPoint() const {
     return data;
 
 }
-template<unsigned int SIZE ,typename T>
-inline double FixedPoint<SIZE ,T>:: GetDataInFormatFixedPoint() const{
-    return static_cast<double >(data)/ pow( 10,SIZE );
+
+template<unsigned int SIZE, typename T>
+inline size_t FixedPoint<SIZE, T>::GetScale() const {
+    return scale;
+}
+
+template<unsigned int SIZE, typename T>
+inline double FixedPoint<SIZE, T>::GetDataInFormatFixedPoint() const {
+    return static_cast<double >(data) / scale;
+
+}
+
+template<unsigned int SIZE, typename T>
+
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(const FixedPoint<SIZE, T> &other) {
+    data = other.data;
+    return *this;
+}
+
+template<unsigned int SIZE, typename T>
+
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(T val) {
+    this->data = static_cast<int>(val * scale);
+    return *this;
+}
+
+template<unsigned int SIZE2, typename U>
+inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U> &fixedPoint) {
+    return stream << "fixedPoint data: " << fixedPoint.data << "  scaling factor: 1/" << pow(BASE, SIZE2)
+                  << " fixed point format: "<<fixedPoint.GetDataInFormatFixedPoint() << std::endl;
+
+}
+
+inline bool checkOverflow(const int &num, unsigned int size) {
+    return num >= pow(BASE, size + 1);
+}
+
+/***operators + ***/
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(const FixedPoint<SIZE, T> &other) {
+    data += other.data;
+    if (checkOverflow(data, SIZE))//todo: rounding
+//        data /= 10;//round
+        throw OverflowFixedPointException();
+
+    return *this;
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(T val) {
+    data += val * scale;
+    if (checkOverflow(data, SIZE))//todo: rounding
+//        data /= 10;//round
+        throw OverflowFixedPointException();
+    return *this;
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator+(const FixedPoint<SIZE, T> &other) {
+    FixedPoint<SIZE, T> temp = *this;
+    temp.data += other.data;
+    if (checkOverflow(temp.data, SIZE))//todo: rounding
+//        temp.data /= 10;
+        throw OverflowFixedPointException();
+    return temp;
+
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator+(T val) {
+    FixedPoint<SIZE, T> temp = *this;
+    temp.data += val * scale;
+    if (checkOverflow(temp.data, SIZE))//todo: rounding
+//        temp.data /= 10;
+        throw OverflowFixedPointException();
+    return temp;
+
 
 }
 

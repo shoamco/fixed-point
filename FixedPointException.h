@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+
 class FixedPointException : public std::runtime_error {
 public:
     FixedPointException(const std::string &message) : std::runtime_error(message) {}
@@ -17,7 +18,7 @@ public:
 
 class SizeFixedPointException : public FixedPointException {
 public:
-    OverflowFixedPointException() : FixedPointException("The size  bit out of rang.") {}
+    SizeFixedPointException() : FixedPointException("The size  bit out of rang.") {}
 };
 
 #endif //CPP_FIXED_POINT_SHOAMCO_FIXEDPOINTEXCEPTION_H
