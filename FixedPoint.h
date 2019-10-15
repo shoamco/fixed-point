@@ -24,7 +24,7 @@
  * ********************************************/
 
 
-template<typename T = int, unsigned int SIZE = 2>
+template< unsigned int SIZE ,typename T = int>
 /************************************************************************************************************
                              class FixedPoint
 
@@ -68,49 +68,44 @@ public:
     FixedPoint(T number);
 
 //    FixedPoint(T dollar = 0, T cent = 0, T pip = 0);
-    FixedPoint(const FixedPoint<T, SIZE> &other);
+    FixedPoint(const FixedPoint< SIZE ,T> &other);
 
-    T GetPrice() const;
+    int GetDataFixedPoint() const;
+    double GetDataInFormatFixedPoint() const;
 
-    template<typename T2>
-    FixedPoint<T, SIZE> &operator=(const FixedPoint<T2> &other);
 
-    FixedPoint<T, SIZE> &operator=(const FixedPoint<T, SIZE> &other);
 
-    FixedPoint<T, SIZE> &operator=(T dollar);
+    FixedPoint<SIZE ,T> &operator=(const FixedPoint<SIZE ,T> &other);
+
+    FixedPoint<SIZE ,T> &operator=(T dollar);
 
     double GetPriceDollar() const;
 
-    FixedPoint<T, SIZE> GetNumberFixedPoint() const;
+    FixedPoint<SIZE ,T> GetNumberFixedPoint() const;
 
     /* TemplatePrice &operator=( T dollar);*/
-    template<typename U>
-    friend std::ostream &operator<<(std::ostream &stream, const FixedPoint<U> &price1);
+//    template<typename U>
+//    friend std::ostream &operator<<(std::ostream &stream, const FixedPoint<U> &price1);
 
 private:
 
-    int data;// fixed-point data type is  an integer
+    int data;// fixed-point data type is an integer
 
 };
 
-template<typename T, unsigned int SIZE>
+template<unsigned int SIZE ,typename T>
 inline
-FixedPoint<T, SIZE>::FixedPoint(T data) : data(data) {
+FixedPoint<SIZE ,T>::FixedPoint(T num) : data(static_cast<int>(num*pow( 10,SIZE ))) {
 }
-//template<typename T, unsigned int SIZE>
-//inline
-//FixedPoint<T, SIZE>::FixedPoint(T dollar, T cent, T pip) : price(dollar * (10 ^ (SIZE)) + cent * (10 ^ (SIZE - 2))+pip) {
-//
-//}
-
-template<typename T, unsigned int SIZE>
-inline FixedPoint<T, SIZE>::FixedPoint(const FixedPoint<T, SIZE> &other) : data(other.data) {
+template<unsigned int SIZE ,typename T>
+inline int FixedPoint<SIZE ,T>::GetDataFixedPoint()const{
+    return data;
 
 }
+template<unsigned int SIZE ,typename T>
+inline double FixedPoint<SIZE ,T>:: GetDataInFormatFixedPoint() const{
+    return static_cast<double >(data)/ pow( 10,SIZE );
 
-//template<typename T, unsigned int SIZE>
-//inline T FixedPoint<T,SIZE>::GetNumberFixedPoint() const {
-//    return number;
-//}
+}
 
 #endif //CPP_FIXED_POINT_SHOAMCO_FIXEDPOINT_H

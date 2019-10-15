@@ -242,7 +242,7 @@ TEST(TemplatePriceTests, assignmentOpertorPrice) {
     TemplatePrice<int> p2(5, 2);
     TemplatePrice<float> p3(5.1f, 2.0f);
     p2 = p1;
-    p3 = p1;
+
     ASSERT_TRUE(p2.GetPrice() == p1.GetPrice());
     //   ASSERT_TRUE(p3.GetPrice() == p1.GetPrice());//todo: assigment operator to other type
     p1 = 6;
@@ -437,18 +437,23 @@ TEST(TemplatePriceTests, UnaryOperator) {
 
 
 TEST(FixPointTests, CTOR_FixPoint) {
-    FixedPoint<int,2> p1(5);
-    FixedPoint<float,4> p2(5.5f);
-    FixedPoint<float,2> p3(4.3f);
-    FixedPoint<double,4> p4(-5);
-//TemplatePrice<double> p5(p4);//copy CTOR
+    FixedPoint<2,int> p1(5);
+    FixedPoint<4,float> p2(5.5f);
 
-std::cout<<p1.GetPrice();
-    ASSERT_TRUE(p1.GetPrice() == 500);
-//ASSERT_TRUE(p2.GetPrice() == (float) 550.0);
-////    ASSERT_TRUE(p3.GetPrice() ==  432.1f); todo:fix
-//ASSERT_TRUE(p4.GetPrice() == (double) -502);
-//ASSERT_TRUE(p5.GetPrice() == (double) -502);
+    FixedPoint<4,double > p3(-5.5);
+    FixedPoint<2> p4(-5);
+
+
+
+    ASSERT_TRUE(p1.GetDataFixedPoint() == 500);
+    ASSERT_TRUE(p1.GetDataInFormatFixedPoint() == 5.0);
+
+    ASSERT_TRUE(p2.GetDataFixedPoint() == 55000);
+    ASSERT_TRUE(p2.GetDataInFormatFixedPoint() == static_cast<double >( 5.5));
+
+    ASSERT_TRUE(p3.GetDataFixedPoint() == -55000);
+    ASSERT_TRUE(p4.GetDataFixedPoint() == -500);
+
 
 
 }
