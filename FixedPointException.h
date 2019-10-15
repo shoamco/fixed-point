@@ -13,7 +13,7 @@ public:
 
 class OverflowFixedPointException : public FixedPointException {
 public:
-    OverflowFixedPointException() : FixedPointException("Overflow!") {}
+    OverflowFixedPointException() : FixedPointException("Overflow!(from the scale )") {}
 };
 
 class SizeFixedPointException : public FixedPointException {
