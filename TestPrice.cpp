@@ -503,3 +503,41 @@ p4+=0.1f;
     ASSERT_TRUE(p4.GetDataInFormatFixedPoint() == 2.45);
 
 }
+
+
+TEST(FixPointTests, MinusOperators) {
+    FixedPoint<2, int> p1(5);
+    FixedPoint<2, int> p2(3);
+    FixedPoint<2, float> p3(5.52f);
+    FixedPoint<2, float> p4(2.36f);
+
+
+    std::cout << p3;
+    std::cout << p4;
+    p1 -= p2;
+    std::cout << p1;
+
+    ASSERT_TRUE(p1.GetDataFixedPoint() == 200);
+    ASSERT_TRUE(p1.GetDataInFormatFixedPoint() == 2);
+
+
+    p2 -= 3;
+
+    ASSERT_TRUE(p2.GetDataFixedPoint() == 0);
+    ASSERT_TRUE(p2.GetDataInFormatFixedPoint() == 0);
+
+    p1=6;
+    std::cout << p1;
+    std::cout << p2;
+
+    std::cout << p2;
+    p2 -=  p1;
+    std::cout << p2;
+    ASSERT_ANY_THROW(   p2 -=  p1;);//exception overflow p2=-1200 not in scale of 100
+//    ASSERT_ANY_THROW(p1 = p1 - 12;);//exception overflow p1=-1000 not in scale of 100
+//
+//    p4-=0.1f;
+//
+//    ASSERT_TRUE(p4.GetDataInFormatFixedPoint() == 5.42);
+
+}

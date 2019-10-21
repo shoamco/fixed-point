@@ -106,6 +106,15 @@ public:
 
     FixedPoint<SIZE, T> operator+(T val);
 
+    /***operators -***/
+    FixedPoint<SIZE, T> &operator-=(const   FixedPoint<SIZE, T> &other);
+
+    FixedPoint<SIZE, T> &operator-=(T val);
+
+    FixedPoint<SIZE, T> operator-(const    FixedPoint<SIZE, T> &other);
+
+    FixedPoint<SIZE, T> operator-(T val);
+
 private:
 
     int data;// fixed-point data type is an integer
@@ -163,7 +172,7 @@ inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U>
 }
 
 inline bool checkOverflow(const int &num, unsigned int size) {
-    return num >= pow(BASE, size + 1);
+    return num >= pow(BASE, size + 1) || num<= -1*pow(BASE, size + 1) ;//for signed data
 }
 
 /***operators + ***/
@@ -203,6 +212,71 @@ inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator+(T val) {
     temp.data += val * scale;
     if (checkOverflow(temp.data, SIZE))//todo: rounding
 //        temp.data /= 10;
+        throw OverflowFixedPointException();
+    return temp;
+
+
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator++() {
+    data+=SIZE;
+    return *this;
+}
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator++( int) {
+    FixedPoint<SIZE, T> temp = *this;
+    ++*this;
+    return temp;
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator--() {
+    data-=SIZE;
+    return *this;
+}
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator--( int) {
+    FixedPoint<SIZE, T> temp = *this;
+    --*this;
+    return temp;
+}
+/***operators - ***/
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZE, T> &other) {
+    data -= other.data;
+    if (checkOverflow(data, SIZE))//todo: rounding
+//        data /= 10;//round
+        throw OverflowFixedPointException();
+
+    return *this;
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(T val) {
+    data -= val * scale;
+    if (checkOverflow(data, SIZE))//todo: rounding
+//        data /= 10;//round
+        throw OverflowFixedPointException();
+    return *this;
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator-(const FixedPoint<SIZE, T> &other) {
+    FixedPoint<SIZE, T> temp = *this;
+    temp.data -= other.data;
+    if (checkOverflow(temp.data, SIZE))//todo: rounding
+        temp.data /= 10;
+
+    return temp;
+
+}
+
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator-(T val) {
+    FixedPoint<SIZE, T> temp = *this;
+    temp.data -= val * scale;
+    if (checkOverflow(temp.data, SIZE))//todo: rounding
         throw OverflowFixedPointException();
     return temp;
 
