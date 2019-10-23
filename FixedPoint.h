@@ -7,32 +7,27 @@
 
 #include <iostream>
 #include <math.h>
+#include <sstream>
+#include <iomanip>
 #include "FixedPointException.h"
 
 #define  BASE 10
-//template<typename T = int, unsigned int SIZE = 4, typename Type = signed>
-//template<typename T = int, unsigned int SIZE=2>
-
-
-//T-type
-//template<typename T , unsigned char I,unsigned char F>
-/**********************************************
- *             class FixedPoint
-  |S-sing bit|I-integer part bit|-F-fractional part bit|
-
- * @tparam T -: type
- * @tparam I :The integer part bit
- * @tparam F :The fractional part bit
- *
- * ********************************************/
-
 
 
 /************************************************************************************************************
                              class FixedPoint
 
  * @tparam T -the data type (for example:int unsigned short int...)
- * @tparam SIZE -the scale
+ * @tparam SIZE -the  accuracy of the number,
+
+
+    ************   member class:  *********************************
+
+    T integer_part -for the integer part
+    int fractional_part-for the fractional part ,9-digit accuracy after the point
+    bool sign; //true if is Positive else false
+**********************************************************************************************************************
+
 
  fixed-point data type is essentially an integer that is scaled by an implicit specific factor determined by the type
  *  For example, the value 1.23 can be represented as 1230 in a fixed-point data type with scaling factor of 1/1000
@@ -68,219 +63,66 @@
 template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
-    FixedPoint(T number);
+    FixedPoint(T integer_part, int fractional_part);
 
     FixedPoint(const FixedPoint<SIZE, T> &other);
+    T GetIntegerPart();
+    int GetFractionalPart();
+    bool GetSing();
 
-    int GetDataFixedPoint() const;
-
-    size_t GetScale() const;
-
-    double GetDataInFormatFixedPoint() const;
-
-    FixedPoint<SIZE, T> &operator=(const FixedPoint<SIZE, T> &other);
-
-    FixedPoint<SIZE, T> &operator=(T dollar);
-
+//
+//    int GetDataFixedPoint() const;
+//
+//    size_t GetScale() const;
+//
+//    double GetDataInFormatFixedPoint() const;
+//
+//    FixedPoint<SIZE, T> &operator=(const FixedPoint<SIZE, T> &other);
+//
+//    FixedPoint<SIZE, T> &operator=(T dollar);
+//
     template<unsigned int SIZE2, typename U>
     friend std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U> &fixedPoint);
-/****Binary arithmetic operators***/
 
-
-    // Declare prefix and postfix increment operators.
-    FixedPoint<SIZE, T> &operator++();       // Prefix increment operator.
-    FixedPoint<SIZE, T> operator++(int);     // Postfix increment operator.
-
-    // Declare prefix and postfix decrement operators.
-    FixedPoint<SIZE, T> &operator--();       // Prefix decrement operator.
-    FixedPoint<SIZE, T> operator--(int);     // Postfix decrement operator
-    /*unary -*/
-    FixedPoint<SIZE, T> operator-() const;
-
-    /***operators + ***/
-    FixedPoint<SIZE, T> &operator+=(const FixedPoint<SIZE, T> &other);
-
-    FixedPoint<SIZE, T> &operator+=(T val);
-
-    FixedPoint<SIZE, T> operator+(const FixedPoint<SIZE, T> &other);
-
-    FixedPoint<SIZE, T> operator+(T val);
-
-    /***operators -***/
-    FixedPoint<SIZE, T> &operator-=(const   FixedPoint<SIZE, T> &other);
-
-    FixedPoint<SIZE, T> &operator-=(T val);
-
-    FixedPoint<SIZE, T> operator-(const    FixedPoint<SIZE, T> &other);
-
-    FixedPoint<SIZE, T> operator-(T val);
 
 private:
 
-    int data;// fixed-point data type is an integer
-    size_t scale;
+    T integer_part;// the integer part
+    int fractional_part; //the fractional part,9-digit accuracy after the point
+    bool sign; //true if is Positive else false
+
+
 
 };
 
 template<unsigned int SIZE, typename T>
 inline
-FixedPoint<SIZE, T>::FixedPoint(T num) : data(static_cast<int>(num * pow(BASE, SIZE))), scale(pow(BASE, SIZE)) {
+FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) : integer_part(integer_part),
+                                                                       fractional_part(fractional_part),
+                                                                       sign(integer_part >= 0) {
 }
 
-template<unsigned int SIZE, typename T>
-inline
-FixedPoint<SIZE, T>::FixedPoint(const FixedPoint<SIZE, T> &other):data(other.data), scale(other.scale) {
-
-}
-
-template<unsigned int SIZE, typename T>
-inline int FixedPoint<SIZE, T>::GetDataFixedPoint() const {
-    return data;
-
-}
-
-template<unsigned int SIZE, typename T>
-inline size_t FixedPoint<SIZE, T>::GetScale() const {
-    return scale;
-}
-
-template<unsigned int SIZE, typename T>
-inline double FixedPoint<SIZE, T>::GetDataInFormatFixedPoint() const {
-    return static_cast<double >(data) / scale;
-
-}
-
-template<unsigned int SIZE, typename T>
-
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(const FixedPoint<SIZE, T> &other) {
-    data = other.data;
-    return *this;
-}
-
-template<unsigned int SIZE, typename T>
-
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(T val) {
-    this->data = static_cast<int>(val * scale);
-    return *this;
-}
 
 template<unsigned int SIZE2, typename U>
 inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U> &fixedPoint) {
-    return stream << "fixedPoint data: " << fixedPoint.data << "  scaling factor: 1/" << pow(BASE, SIZE2)
-                  << " fixed point format: "<<fixedPoint.GetDataInFormatFixedPoint() << std::endl;
+    return stream
+//    << "integer_part : " << fixedPoint.integer_part
+//                  << " fractional_part "<<fixedPoint.fractional_part
+//                  << " sign: "<<fixedPoint.sign
+                  <<" all number"<<fixedPoint.integer_part<<"."<<std::setfill('0')<<std::setw(2)<<fixedPoint.fractional_part<<std::endl;
 
-}
-
-inline bool checkOverflow(const int &num, unsigned int size) {
-    return num >= pow(BASE, size + 1) || num<= -1*pow(BASE, size + 1) ;//for signed data
-}
-
-/***operators + ***/
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(const FixedPoint<SIZE, T> &other) {
-    data += other.data;
-    if (checkOverflow(data, SIZE))//todo: rounding
-//        data /= 10;//round
-        throw OverflowFixedPointException();
-
-    return *this;
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(T val) {
-    data += val * scale;
-    if (checkOverflow(data, SIZE))//todo: rounding
-//        data /= 10;//round
-        throw OverflowFixedPointException();
-    return *this;
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator+(const FixedPoint<SIZE, T> &other) {
-    FixedPoint<SIZE, T> temp = *this;
-    temp.data += other.data;
-    if (checkOverflow(temp.data, SIZE))//todo: rounding
-//        temp.data /= 10;
-        throw OverflowFixedPointException();
-    return temp;
-
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator+(T val) {
-    FixedPoint<SIZE, T> temp = *this;
-    temp.data += val * scale;
-    if (checkOverflow(temp.data, SIZE))//todo: rounding
-//        temp.data /= 10;
-        throw OverflowFixedPointException();
-    return temp;
-
-
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator++() {
-    data+=SIZE;
-    return *this;
 }
 template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator++( int) {
-    FixedPoint<SIZE, T> temp = *this;
-    ++*this;
-    return temp;
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator--() {
-    data-=SIZE;
-    return *this;
+inline T FixedPoint<SIZE, T>::GetIntegerPart(){
+    return integer_part;
 }
 template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator--( int) {
-    FixedPoint<SIZE, T> temp = *this;
-    --*this;
-    return temp;
+inline int FixedPoint<SIZE, T>::GetFractionalPart(){
+    return fractional_part;
 }
-/***operators - ***/
 template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZE, T> &other) {
-    data -= other.data;
-    if (checkOverflow(data, SIZE))//todo: rounding
-//        data /= 10;//round
-        throw OverflowFixedPointException();
-
-    return *this;
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(T val) {
-    data -= val * scale;
-    if (checkOverflow(data, SIZE))//todo: rounding
-//        data /= 10;//round
-        throw OverflowFixedPointException();
-    return *this;
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator-(const FixedPoint<SIZE, T> &other) {
-    FixedPoint<SIZE, T> temp = *this;
-    temp.data -= other.data;
-    if (checkOverflow(temp.data, SIZE))//todo: rounding
-        temp.data /= 10;
-
-    return temp;
-
-}
-
-template<unsigned int SIZE, typename T>
-inline FixedPoint<SIZE, T> FixedPoint<SIZE, T>::operator-(T val) {
-    FixedPoint<SIZE, T> temp = *this;
-    temp.data -= val * scale;
-    if (checkOverflow(temp.data, SIZE))//todo: rounding
-        throw OverflowFixedPointException();
-    return temp;
-
-
+inline bool FixedPoint<SIZE, T>::GetSing(){
+    return sign;
 }
 
 #endif //CPP_FIXED_POINT_SHOAMCO_FIXEDPOINT_H
