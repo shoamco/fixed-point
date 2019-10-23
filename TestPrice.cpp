@@ -515,6 +515,20 @@ TEST(FixPointTests, MultiplicationOperator) {
     ASSERT_TRUE(p1.GetIntegerPart() == 20&& p1.GetFractionalPart()==6 );
     ASSERT_TRUE(p1.GetData()==2006 );
 }
+TEST(FixPointTests, DivideOperator) {
+    FixedPoint<2, int> p1(30,40);
+    FixedPoint<2, int> p2(5,90);
+    FixedPoint<2, int> p3(1,50);
+    p1/=p2;
+    std::cout<<p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 5&& p1.GetFractionalPart()==15 );
+    ASSERT_TRUE(p1.GetData()==515 );
+
+    p3/=p2;
+    std::cout<<p3;
+//    ASSERT_TRUE(p3.GetIntegerPart() == 0&& p3.GetFractionalPart()==25 );//todo:fixed bag underflow when a/=b a<b
+    ASSERT_TRUE(p3.GetData()==25 );
+}
 TEST(FixPointTests, BollanOperators) {
 
     FixedPoint<2, int> p1(3,40);

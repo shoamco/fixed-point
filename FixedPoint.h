@@ -114,8 +114,11 @@ public:
 //    FixedPoint<SIZE, T> operator-(const FixedPoint<SIZE, T> &other);
 //
 //    FixedPoint<SIZE, T> operator-(T val);
-    /***operators -***/
+    /***    operators *    ***/
     FixedPoint<SIZE, T> &operator*=(const FixedPoint<SIZE, T> &other);
+
+    /***operators /   ***/
+    FixedPoint<SIZE, T> &operator/=(const FixedPoint<SIZE, T> &other);
 
 
 private:
@@ -257,6 +260,28 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZ
     integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
 
     fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {
+        fractional_part *= -1;
+        sign = !sign;
+    }
+
+    return *this;
+}
+
+
+///***operators * ***/
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator/=(const FixedPoint<SIZE, T> &other) {
+
+        data = (data * pow_base_n<SIZE>(BASE)) / other.data;
+
+        std::cout << "data  " << data;
+//    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE * 2)) << " data/pow_base_n(SIZE) "<< data /static_cast<int>(pow_base_n<SIZE>((BASE * 2)) << "  ,  " << data % static_cast<int>(pow_base_n<SIZE>((BASE*2)) << std::endl;
+//    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
+        integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
+        fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
+
+
     if (sign != integer_part > 0) {
         fractional_part *= -1;
         sign = !sign;
