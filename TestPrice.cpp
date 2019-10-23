@@ -438,51 +438,47 @@ TEST(TemplatePriceTests, UnaryOperator) {
 
 TEST(FixPointTests, CTOR_FixPoint) {
     FixedPoint<2, int> p1(5,4);
-//    FixedPoint<4, float> p2(5.5f);
-//
-//    FixedPoint<4, double> p3(-5.5);
-//    FixedPoint<2> p4(-5);
-//    FixedPoint<2> p5(p4);//copy CTOR
-
+    FixedPoint<2> p2(p1);//copy CTOR
     std::cout << p1;
-//
-//    ASSERT_TRUE(p1.GetDataFixedPoint() == 500);
-//    ASSERT_TRUE(p1.GetDataInFormatFixedPoint() == 5.0);
-//
-//    ASSERT_TRUE(p2.GetDataFixedPoint() == 55000);
-//    ASSERT_TRUE(p2.GetDataInFormatFixedPoint() == static_cast<double >( 5.5));
-//
-//    ASSERT_TRUE(p3.GetDataFixedPoint() == -55000);
-//    ASSERT_TRUE(p4.GetDataFixedPoint() == -500);
-//    ASSERT_TRUE(p5.GetDataFixedPoint() == -500);
+    ASSERT_TRUE(p1.GetIntegerPart() == 5 && p1.GetFractionalPart()==4 );
+    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart()==4 );
+
 
 
 }
-//
-//TEST(FixPointTests, assignmentOpertorPrice) {
-//    FixedPoint<2, int> p1(5);
-//    FixedPoint<2, int> p2(6);
-//
-//
-//    p2 = p1;
-//    ASSERT_TRUE(p2.GetDataFixedPoint() == p1.GetDataFixedPoint());
-//    p1 = 6;
-//    ASSERT_TRUE(p1.GetDataFixedPoint() == 600);
-//
-//
-//}
-//
-//
-//TEST(FixPointTests, PlusOperators) {
-//    FixedPoint<2, int> p1(5);
-//    FixedPoint<2, int> p2(3);
-//    FixedPoint<2, float> p3(5.52f);
-//    FixedPoint<2, float> p4(2.36f);
-//
-//
-//    std::cout << p3;
-//    std::cout << p4;
-//    p1 += p2;
+
+TEST(FixPointTests, assignmentOpertorPrice) {
+    FixedPoint<2, int> p1(5,4);;
+    FixedPoint<2, int> p2(6,777);
+
+    std::cout << p1;
+
+    std::cout << p2;
+
+    p2 = p1;
+    std::cout << p2;
+
+    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart()==4 );
+
+
+}
+
+
+TEST(FixPointTests, PlusOperators) {
+    FixedPoint<2, int> p1(3,40);
+    FixedPoint<2, int> p2(5,90);
+    FixedPoint<2, int> p3(1,1);
+    FixedPoint<2, int> p4(3,40);
+    std::cout <<"p1  "<< p1;
+
+    p1 += p3;
+    std::cout <<"p1  "<< p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 4 && p1.GetFractionalPart()==41 );
+//    p4 += p2;
+//    std::cout <<"p4  "<< p4;
+//    ASSERT_TRUE(p4.GetIntegerPart() == 9 && p1.GetFractionalPart()==30 );
+
+
 //
 //
 //    ASSERT_TRUE(p1.GetDataFixedPoint() == 800);
@@ -501,8 +497,8 @@ TEST(FixPointTests, CTOR_FixPoint) {
 //p4+=0.1f;
 //    std::cout << "after +0.1"<<p4;
 //    ASSERT_TRUE(p4.GetDataInFormatFixedPoint() == 2.45);
-//
-//}
+
+}
 //
 //
 //TEST(FixPointTests, MinusOperators) {
