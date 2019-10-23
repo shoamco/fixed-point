@@ -227,4 +227,36 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZ
     return *this;
 }
 
+
+
+template<unsigned int SIZE, typename T>
+inline bool operator==(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() == fixedpoint2.GetData();
+
+}
+
+template<unsigned int SIZE, typename T>
+inline bool operator!=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() != fixedpoint2.GetData();
+
+}
+template<unsigned int SIZE, typename T>
+inline bool operator<=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() <= fixedpoint2.GetData();
+
+}
+template<unsigned int SIZE, typename T>
+inline bool operator>=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() >= fixedpoint2.GetData();
+
+}
+template<unsigned int SIZE, typename T>
+inline bool operator<(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() < fixedpoint2.GetData();
+}
+template<unsigned int SIZE, typename T>
+inline bool operator>(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
+    return fixedpoint1.GetData() > fixedpoint2.GetData();
+}
+
 #endif //CPP_FIXED_POINT_SHOAMCO_FIXEDPOINT_H
