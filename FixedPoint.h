@@ -61,6 +61,7 @@
 
  * *************************************************************************************************************/
 #define  BASE 10
+
 template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
@@ -69,6 +70,7 @@ public:
     FixedPoint(const FixedPoint<SIZE, T> &other);
 
     T GetIntegerPart();
+
     int GetData();
 
     unsigned int GetFractionalPart();
@@ -112,6 +114,8 @@ public:
 //    FixedPoint<SIZE, T> operator-(const FixedPoint<SIZE, T> &other);
 //
 //    FixedPoint<SIZE, T> operator-(T val);
+    /***operators -***/
+    FixedPoint<SIZE, T> &operator*=(const FixedPoint<SIZE, T> &other);
 
 
 private:
@@ -123,18 +127,21 @@ private:
 
 
 };
+
 /***    template metaprogramming    ***/
-template <int n>
+template<int n>
 inline size_t pow_base_n(const int x) {
-    return pow_base_n<n-1>(x)*x;
+    return pow_base_n<n - 1>(x) * x;
 }
+
 /**  template specialization for Conditions recursion when n=1*/
-template <>
+template<>
 inline size_t pow_base_n<1>(const int x) {
     return x;
 }
+
 /**  template specialization for Conditions recursion when n=0*/
-template <>
+template<>
 inline size_t pow_base_n<0>(const int x) {
     return 1;
 }
@@ -145,14 +152,15 @@ inline
 FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) : integer_part(integer_part),
                                                                        fractional_part(fractional_part),
                                                                        sign(integer_part >= 0),
-                                                                       data(integer_part * pow_base_n<SIZE>(BASE)+fractional_part) {
+                                                                       data(integer_part * pow_base_n<SIZE>(BASE) +
+                                                                            fractional_part) {
 }
 
 template<unsigned int SIZE, typename T>
 inline
 FixedPoint<SIZE, T>::FixedPoint(const FixedPoint<SIZE, T> &other):integer_part(other.integer_part),
                                                                   fractional_part(other.fractional_part),
-                                                                  sign(other.sign),data(other.data) {
+                                                                  sign(other.sign), data(other.data) {
 
 }
 
@@ -168,8 +176,9 @@ inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U>
             << fixedPoint.fractional_part << std::endl;
 
 }
+
 template<unsigned int SIZE, typename T>
-inline int FixedPoint<SIZE, T>::GetData()  {
+inline int FixedPoint<SIZE, T>::GetData() {
     return data;
 }
 
@@ -205,8 +214,8 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(const FixedPoint<SIZE
 template<unsigned int SIZE, typename T>
 inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(const FixedPoint<SIZE, T> &other) {
     data += other.data;
-    integer_part=data/static_cast<int>( pow_base_n<SIZE>(BASE));
-    fractional_part=data%static_cast<int>( pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<int>( pow_base_n<SIZE>(BASE));
+    fractional_part = data % static_cast<int>( pow_base_n<SIZE>(BASE));
 //    unsigned int temp_fractional_part = fractional_part + other.fractional_part;
 //
 //    if (checkOverflowFractional(temp_fractional_part, SIZE)) {
@@ -227,35 +236,34 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZ
     data -= other.data;
 //    std::cout<<"data  "<<data<<"pow_base_n(SIZE) " <<pow_base_n(SIZE) <<" data/pow_base_n(SIZE) "<< data/static_cast<int>(pow_base_n(SIZE))<<"  ,  "<<data%static_cast<int>(pow_base_n(SIZE))<<std::endl;
 
-    integer_part=data/static_cast<int>( pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<int>( pow_base_n<SIZE>(BASE));
 
-    fractional_part=data%static_cast<int>( pow_base_n<SIZE>(BASE));
-    if(sign != integer_part>0)
-    {
-        fractional_part*=-1;
-        sign=!sign;
+    fractional_part = data % static_cast<int>( pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {
+        fractional_part *= -1;
+        sign = !sign;
     }
 
     return *this;
 }
 
 ///***operators * ***/
-//template<unsigned int SIZE, typename T>
-//inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZE, T> &other) {
-//    data *= other.data;
-//    std::cout<<"data  "<<data<<"pow_base_n(SIZE) " <<pow_base_n(SIZE) <<" data/pow_base_n(SIZE) "<< data/static_cast<int>(pow_base_n(SIZE))<<"  ,  "<<data%static_cast<int>(pow_base_n(SIZE))<<std::endl;
-//
-//    integer_part=data/static_cast<int>(pow_base_n(SIZE));
-//
-//    fractional_part=data%static_cast<int>(pow_base_n(SIZE));
-//    if(sign != integer_part>0)
-//    {
-//        fractional_part*=-1;
-//        sign=!sign;
-//    }
-//
-//    return *this;
-//}
+template<unsigned int SIZE, typename T>
+inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZE, T> &other) {
+    data *= other.data;
+    data/=pow_base_n<SIZE>(BASE);
+//    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE * 2)) << " data/pow_base_n(SIZE) "<< data /static_cast<int>(pow_base_n<SIZE>((BASE * 2)) << "  ,  " << data % static_cast<int>(pow_base_n<SIZE>((BASE*2)) << std::endl;
+//    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
+    integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
+
+    fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {
+        fractional_part *= -1;
+        sign = !sign;
+    }
+
+    return *this;
+}
 
 /***   Boolan operators  ***/
 template<unsigned int SIZE, typename T>
@@ -269,20 +277,24 @@ inline bool operator!=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fi
     return fixedpoint1.GetData() != fixedpoint2.GetData();
 
 }
+
 template<unsigned int SIZE, typename T>
 inline bool operator<=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
     return fixedpoint1.GetData() <= fixedpoint2.GetData();
 
 }
+
 template<unsigned int SIZE, typename T>
 inline bool operator>=(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
     return fixedpoint1.GetData() >= fixedpoint2.GetData();
 
 }
+
 template<unsigned int SIZE, typename T>
 inline bool operator<(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
     return fixedpoint1.GetData() < fixedpoint2.GetData();
 }
+
 template<unsigned int SIZE, typename T>
 inline bool operator>(FixedPoint<SIZE, T> &fixedpoint1, FixedPoint<SIZE, T> &fixedpoint2) {
     return fixedpoint1.GetData() > fixedpoint2.GetData();

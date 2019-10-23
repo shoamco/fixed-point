@@ -486,6 +486,7 @@ TEST(FixPointTests, PlusOperators) {
 
 }
 
+
 TEST(FixPointTests, MinusOperators) {
 
     FixedPoint<2, int> p1(3,40);
@@ -506,6 +507,14 @@ TEST(FixPointTests, MinusOperators) {
     ASSERT_TRUE(p4.GetData()==-250 );
     std::cout<<"\n\n\n\n\n!!!!!!!!!!!!!!!!1pow_base_n<BASE>(SIZE)"<<pow_base_n<10>(2)<<std::endl;
 }
+TEST(FixPointTests, MultiplicationOperator) {
+    FixedPoint<2, int> p1(3,40);
+    FixedPoint<2, int> p2(5,90);
+    p1*=p2;
+    std::cout<<p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 20&& p1.GetFractionalPart()==6 );
+    ASSERT_TRUE(p1.GetData()==2006 );
+}
 TEST(FixPointTests, BollanOperators) {
 
     FixedPoint<2, int> p1(3,40);
@@ -523,6 +532,5 @@ TEST(FixPointTests, BollanOperators) {
 }
 
 TEST(FixPointTests, power_template_metaprogramming) {
-    std::cout<<"\n\n\n\n\n!!!!!!!!!!!!!!!!1pow_base_n<BASE>(SIZE)"<<pow_base_n<10>(2)<<std::endl;
     ASSERT_TRUE(pow_base_n<2>(10)==100 );
 }
