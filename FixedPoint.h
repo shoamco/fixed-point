@@ -128,10 +128,12 @@ template <int n>
 inline size_t pow_base_n(const int x) {
     return pow_base_n<n-1>(x)*x;
 }
+/**  template specialization for Conditions recursion when n=1*/
 template <>
 inline size_t pow_base_n<1>(const int x) {
     return x;
 }
+/**  template specialization for Conditions recursion when n=0*/
 template <>
 inline size_t pow_base_n<0>(const int x) {
     return 1;
