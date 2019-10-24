@@ -71,7 +71,7 @@ template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
     static const unsigned int Precision=SIZE;
-    static const  T theType;
+    typedef T theType;
     FixedPoint(T integer_part, int fractional_part);
 
     FixedPoint(const FixedPoint<SIZE, T> &other);

@@ -622,3 +622,21 @@ TEST(FixPointTests, cheack) {
 //    fp_t<32, long long> evenMoreAccurate;
 
 }
+//
+//template <size_t NUM>
+//void actSomehow(FixedPoint<NUM> fp)
+//{
+//
+//    FixedPoint<NUM, long> other;
+////        FixedPoint<NUM>::theType something;
+//    std::cout<<(sizeof(long) == sizeof(other.theType) ? "yes":"no")
+//
+//}
+TEST(FixPointTests, test_theType) {
+    FixedPoint<2, int> p1(30,40);
+std::cout<<"the type"<< sizeof(FixedPoint<2, int>::theType);
+     ASSERT_TRUE(sizeof(int)== sizeof(  FixedPoint<2, int>::theType));
+//
+//    actSomehow<2>(p1);
+
+}
