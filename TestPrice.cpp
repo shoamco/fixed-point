@@ -640,3 +640,10 @@ std::cout<<"the type"<< sizeof(FixedPoint<2, int>::theType);
 //    actSomehow<2>(p1);
 
 }
+
+
+TEST(FixPointTests, test_numberToWords) {
+    FixedPoint<2, int> fp(200, 0);
+    std::cout << numberToWords(fp.GetIntegerPart());
+
+}
