@@ -645,5 +645,6 @@ std::cout<<"the type"<< sizeof(FixedPoint<2, int>::theType);
 TEST(FixPointTests, test_numberToWords) {
     FixedPoint<2, int> fp(200, 0);
     std::cout << numberToWords(fp.GetIntegerPart());
+    ASSERT_TRUE(numberToWords(fp.GetIntegerPart())== "Two Hundred ");
 
 }
