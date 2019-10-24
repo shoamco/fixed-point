@@ -254,7 +254,7 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZ
 template<unsigned int SIZE, typename T>
 inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZE, T> &other) {
     data *= other.data;
-    data/=pow_base_n<SIZE>(BASE);
+    data /= pow_base_n<SIZE>(BASE);
 //    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE * 2)) << " data/pow_base_n(SIZE) "<< data /static_cast<int>(pow_base_n<SIZE>((BASE * 2)) << "  ,  " << data % static_cast<int>(pow_base_n<SIZE>((BASE*2)) << std::endl;
 //    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
     integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
@@ -273,16 +273,19 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZ
 template<unsigned int SIZE, typename T>
 inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator/=(const FixedPoint<SIZE, T> &other) {
 
-        data = (data * pow_base_n<SIZE>(BASE)) / other.data;
+    data = (data * pow_base_n<SIZE * 2>(BASE)) / (other.data * pow_base_n<SIZE>(BASE));
 
-        std::cout << "data  " << data;
-//    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE * 2)) << " data/pow_base_n(SIZE) "<< data /static_cast<int>(pow_base_n<SIZE>((BASE * 2)) << "  ,  " << data % static_cast<int>(pow_base_n<SIZE>((BASE*2)) << std::endl;
+    std::cout << "data  " << data;
+    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE)) << " data/pow_base_n(SIZE) "
+              << data / static_cast<int>(pow_base_n<SIZE>(BASE)) << "  ,  "
+              << data % data / static_cast<int>(pow_base_n<SIZE>(BASE)) << std::endl;
 //    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
-        integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
-        fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
+    fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
 
 
-    if (sign != integer_part > 0) {
+    if (sign != integer_part >= 0) {
+        std::cout << "in if sign" << sign << "integer_part > 0" << (integer_part > 0) << std::endl;
         fractional_part *= -1;
         sign = !sign;
     }
