@@ -7,9 +7,12 @@
 
 #include <iostream>
 #include <math.h>
+#include <string>
 #include <sstream>
 #include <iomanip>
 #include "FixedPointException.h"
+#include <iomanip>
+#include <locale>
 
 
 
@@ -18,7 +21,7 @@
                              class FixedPoint
 
  * @tparam T -the data type (for example:int unsigned short int...)
- * @tparam SIZE -the  accuracy of the number,
+ * @tparam SIZE -the  accuracy of the number,(for example:(1, 5) SIZE=2->1.05 )
 
 
     ************   member class:  *********************************
@@ -26,6 +29,8 @@
     T integer_part -for the integer part
     int fractional_part-for the fractional part ,9-digit accuracy after the point
     bool sign; //true if is Positive else false
+    long int data;//hold all the fixed size in inger-to make the calculations easier
+
 **********************************************************************************************************************
 
 
@@ -65,17 +70,21 @@
 template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
+    static const unsigned int Precision=SIZE;
+    static const  T theType;
     FixedPoint(T integer_part, int fractional_part);
 
     FixedPoint(const FixedPoint<SIZE, T> &other);
 
     T GetIntegerPart();
 
-    int GetData();
+    long int GetData();
 
     unsigned int GetFractionalPart();
 
     bool GetSing();
+    std::string asString();
+    unsigned int GetPrecision();
 
 
 //
@@ -125,12 +134,17 @@ private:
 
     T integer_part;// the integer part
     int fractional_part; //the fractional part,9-digit accuracy after the point
-    bool sign; //true if is Positive else false
-    int data;
+    bool sign; //true if is Positive else false todo:  represent '-'  when  integer_part =0 and sign is Negative, for example -0.1,
+    long int data;//todo: type of int64_t
+
+
 
 
 };
-
+template<unsigned int SIZE, typename T>
+inline unsigned int FixedPoint<SIZE, T>::GetPrecision(){
+    return Precision;
+}
 /***    template metaprogramming    ***/
 template<int n>
 inline size_t pow_base_n(const int x) {
@@ -148,17 +162,37 @@ template<>
 inline size_t pow_base_n<0>(const int x) {
     return 1;
 }
+//template <int N>                                                                 // (2)
+//struct Factorial{
+//    static int const value = N * Factorial<N-1>::value;
+//};
+//
+//template <>                                                                      // (3)
+//struct Factorial<1>{
+//    static int const value = 1;
+//};
 
 
 template<unsigned int SIZE, typename T>
 inline
-FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) : integer_part(integer_part),
+FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) :integer_part(integer_part),
                                                                        fractional_part(fractional_part),
                                                                        sign(integer_part >= 0),
                                                                        data(integer_part * pow_base_n<SIZE>(BASE) +
                                                                             fractional_part) {
 }
+template<unsigned int SIZE, typename T>
+inline std::string FixedPoint<SIZE, T>::asString(){
+    std::ostringstream convert1;
+    std::ostringstream convert2;   // stream used for the conversion
 
+    convert1 << integer_part;      // insert the textual representation of 'Number' in the characters in the stream
+    convert2 << fractional_part;      // insert the textual representation of 'Number' in the characters in the stream
+
+    return convert1.str()+"."+convert2.str(); // set 'Result' to the contents of the stream
+//    return std::string(integer_part+"."+fractional_part);
+//    return std::string(integer_part)+std::string(".")+std::string(fractional_part);
+}
 template<unsigned int SIZE, typename T>
 inline
 FixedPoint<SIZE, T>::FixedPoint(const FixedPoint<SIZE, T> &other):integer_part(other.integer_part),
@@ -181,7 +215,7 @@ inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U>
 }
 
 template<unsigned int SIZE, typename T>
-inline int FixedPoint<SIZE, T>::GetData() {
+inline long int FixedPoint<SIZE, T>::GetData() {
     return data;
 }
 
@@ -217,8 +251,12 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator=(const FixedPoint<SIZE
 template<unsigned int SIZE, typename T>
 inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(const FixedPoint<SIZE, T> &other) {
     data += other.data;
-    integer_part = data / static_cast<int>( pow_base_n<SIZE>(BASE));
-    fractional_part = data % static_cast<int>( pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<long int>( pow_base_n<SIZE>(BASE));
+    fractional_part = data % static_cast<long int>( pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {//if the sing is change
+        fractional_part *= -1;
+        sign = !sign;
+    }
 //    unsigned int temp_fractional_part = fractional_part + other.fractional_part;
 //
 //    if (checkOverflowFractional(temp_fractional_part, SIZE)) {
@@ -239,10 +277,10 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator-=(const FixedPoint<SIZ
     data -= other.data;
 //    std::cout<<"data  "<<data<<"pow_base_n(SIZE) " <<pow_base_n(SIZE) <<" data/pow_base_n(SIZE) "<< data/static_cast<int>(pow_base_n(SIZE))<<"  ,  "<<data%static_cast<int>(pow_base_n(SIZE))<<std::endl;
 
-    integer_part = data / static_cast<int>( pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<long int>( pow_base_n<SIZE>(BASE));
 
-    fractional_part = data % static_cast<int>( pow_base_n<SIZE>(BASE));
-    if (sign != integer_part > 0) {
+    fractional_part = data % static_cast<long int>( pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {//if the sing is change
         fractional_part *= -1;
         sign = !sign;
     }
@@ -257,10 +295,10 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator*=(const FixedPoint<SIZ
     data /= pow_base_n<SIZE>(BASE);
 //    std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE * 2)) << " data/pow_base_n(SIZE) "<< data /static_cast<int>(pow_base_n<SIZE>((BASE * 2)) << "  ,  " << data % static_cast<int>(pow_base_n<SIZE>((BASE*2)) << std::endl;
 //    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
-    integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<long int>(pow_base_n<SIZE>(BASE));
 
-    fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
-    if (sign != integer_part > 0) {
+    fractional_part = data % static_cast<long int>(pow_base_n<SIZE>(BASE));
+    if (sign != integer_part > 0) {//if the sing is change
         fractional_part *= -1;
         sign = !sign;
     }
@@ -277,11 +315,11 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator/=(const FixedPoint<SIZ
 
     std::cout << "data  " << data;
     std::cout << "data  " << data << "pow_base_n(SIZE) " << pow_base_n<SIZE>((BASE)) << " data/pow_base_n(SIZE) "
-              << data / static_cast<int>(pow_base_n<SIZE>(BASE)) << "  ,  "
-              << data % data / static_cast<int>(pow_base_n<SIZE>(BASE)) << std::endl;
+              << data / static_cast<long int>(pow_base_n<SIZE>(BASE)) << "  ,  "
+              << data % data / static_cast<long int>(pow_base_n<SIZE>(BASE)) << std::endl;
 //    std::cout<<" data / static_cast<int>(pow_base_n<SIZE>((BASE * 2))"<< data / static_cast<int>(pow_base_n<SIZE>((BASE * 2));
-    integer_part = data / static_cast<int>(pow_base_n<SIZE>(BASE));
-    fractional_part = data % static_cast<int>(pow_base_n<SIZE>(BASE));
+    integer_part = data / static_cast<long int>(pow_base_n<SIZE>(BASE));
+    fractional_part = data % static_cast<long int>(pow_base_n<SIZE>(BASE));
 
 
     if (sign != integer_part >= 0) {

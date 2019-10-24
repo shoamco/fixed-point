@@ -9,6 +9,7 @@
 #include "Price.h"
 #include "TemplatePrice.h"
 #include "FixedPoint.h"
-
+#include "Color.h"
+#include "NumberToWords.h"
 
 #endif //CPP_FIXED_POINT_SHOAMCO_TESTPRICE_H

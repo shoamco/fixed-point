@@ -493,6 +493,11 @@ TEST(FixPointTests, MinusOperators) {
     FixedPoint<2, int> p2(5,90);
     FixedPoint<2, int> p3(1,1);
     FixedPoint<2, int> p4(3,40);
+
+    FixedPoint<2, int> p5(0,3);
+    FixedPoint<2, int> p6(0,9);
+
+
     std::cout <<"p1  "<< p1;
     std::cout <<"p2  "<< p2;
     std::cout <<"p3  "<< p3;
@@ -505,7 +510,12 @@ TEST(FixPointTests, MinusOperators) {
     std::cout <<"p4  !!!!!"<< p4;
     ASSERT_TRUE(p4.GetIntegerPart() == -2 && p4.GetFractionalPart()==50 );
     ASSERT_TRUE(p4.GetData()==-250 );
-    std::cout<<"\n\n\n\n\n!!!!!!!!!!!!!!!!1pow_base_n<BASE>(SIZE)"<<pow_base_n<10>(2)<<std::endl;
+
+    p5-=p6;
+    std::cout <<"p5  !!!!!"<< p5;
+
+    ASSERT_TRUE(p5.GetIntegerPart() == -0 && p5.GetFractionalPart()==6 );
+
 }
 TEST(FixPointTests, MultiplicationOperator) {
     FixedPoint<2, int> p1(3,40);
@@ -550,4 +560,65 @@ TEST(FixPointTests, DivideOperator) {
     std::cout<<p3;
     ASSERT_TRUE(p3.GetIntegerPart() == 0&& p3.GetFractionalPart()==25 );
     ASSERT_TRUE(p3.GetData()==25 );
+}
+
+TEST(FixPointTests, GetPrecision) {
+    FixedPoint<2, int> p1(30,40);
+    ASSERT_TRUE(p1.GetPrecision()==2 );
+}
+TEST(FixPointTests, color_interface) {
+    FixedPoint<2, int> p1(30,40);
+   Color color;
+    Color * arr= color.calcFixedPointGradient(p1);
+    int len= (sizeof(arr)/sizeof(*arr));
+    std::cout<<"len  "<<len<<std::endl;//todo:hoe to get len of local static arrary
+    ASSERT_TRUE(color.getLenArry(p1)==2 );
+
+
+//    ASSERT_TRUE(p1.GetPrecision()==2 );
+
+}
+
+TEST(FixPointTests, asString) {
+    FixedPoint<2, int> p1(30,40);
+std::cout<<"res:   "<<p1.asString();
+    ASSERT_TRUE(p1.asString()=="30.40");
+
+
+//    ASSERT_TRUE(p1.GetPrecision()==2 );
+
+}
+
+
+
+TEST(FixPointTests, digitsToWords1) {
+   std::string st1="123.45";
+   int size=2;
+//    digitsToWords(st1,0,3);
+    std::string IntegerPart= digitsToWord(st1,0,st1.length()-size-1);
+    std::string FractionalPart= digitsToWord(st1,st1.length()-size,st1.length());
+std::cout<<"IntegerPart "<<IntegerPart<<" FractionalPart"<<FractionalPart;
+    ASSERT_TRUE(IntegerPart == "123" &&FractionalPart=="45");
+
+//    ASSERT_TRUE(p1.GetPrecision()==2 );
+
+}
+
+
+TEST(FixPointTests, convert2digit) {
+
+        FixedPoint<2, int> fp(6, 0);
+        std::cout << numberToWords(fp.GetIntegerPart());
+//     ASSERT_TRUE(numberToWords(fp.GetIntegerPart()=="Six");
+
+
+}
+
+TEST(FixPointTests, cheack) {
+    typedef FixedPoint<2, long long> Price;
+    /***   this not work ,Because the typedef in time preprocssor  ***/
+//    typedef FixedPoint fp_t;//
+//    fp_t<8> veryAccurate;
+//    fp_t<32, long long> evenMoreAccurate;
+
 }
