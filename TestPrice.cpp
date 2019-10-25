@@ -437,19 +437,18 @@ TEST(TemplatePriceTests, UnaryOperator) {
 
 
 TEST(FixPointTests, CTOR_FixPoint) {
-    FixedPoint<2, int> p1(5,4);
+    FixedPoint<2, int> p1(5, 4);
     FixedPoint<2> p2(p1);//copy CTOR
     std::cout << p1;
-    ASSERT_TRUE(p1.GetIntegerPart() == 5 && p1.GetFractionalPart()==4 );
-    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart()==4 );
-
+    ASSERT_TRUE(p1.GetIntegerPart() == 5 && p1.GetFractionalPart() == 4);
+    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart() == 4);
 
 
 }
 
 TEST(FixPointTests, assignmentOpertorPrice) {
-    FixedPoint<2, int> p1(5,4);;
-    FixedPoint<2, int> p2(6,777);
+    FixedPoint<2, int> p1(5, 4);;
+    FixedPoint<2, int> p2(6, 777);
 
     std::cout << p1;
 
@@ -458,30 +457,28 @@ TEST(FixPointTests, assignmentOpertorPrice) {
     p2 = p1;
     std::cout << p2;
 
-    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart()==4 );
+    ASSERT_TRUE(p2.GetIntegerPart() == 5 && p2.GetFractionalPart() == 4);
 
 
 }
 
 
 TEST(FixPointTests, PlusOperators) {
-    FixedPoint<2, int> p1(3,40);
-    FixedPoint<2, int> p2(5,90);
-    FixedPoint<2, int> p3(1,1);
-    FixedPoint<2, int> p4(3,40);
-    std::cout <<"p1  "<< p1;
-    std::cout <<"p2  "<< p2;
-    std::cout <<"p3  "<< p3;
+    FixedPoint<2, int> p1(3, 40);
+    FixedPoint<2, int> p2(5, 90);
+    FixedPoint<2, int> p3(1, 1);
+    FixedPoint<2, int> p4(3, 40);
+    std::cout << "p1  " << p1;
+    std::cout << "p2  " << p2;
+    std::cout << "p3  " << p3;
 
     p1 += p3;
-    std::cout <<"p1  "<< p1;
-    ASSERT_TRUE(p1.GetIntegerPart() == 4 && p1.GetFractionalPart()==41 );
+    std::cout << "p1  " << p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 4 && p1.GetFractionalPart() == 41);
     p4 += p2;
-    std::cout <<"p4  !!!!!"<< p4;
-    ASSERT_TRUE(p4.GetIntegerPart() == 9 && p4.GetFractionalPart()==30 );
-    ASSERT_TRUE(p4.GetData()==930 );
-
-
+    std::cout << "p4  !!!!!" << p4;
+    ASSERT_TRUE(p4.GetIntegerPart() == 9 && p4.GetFractionalPart() == 30);
+    ASSERT_TRUE(p4.GetData() == 930);
 
 
 }
@@ -489,90 +486,94 @@ TEST(FixPointTests, PlusOperators) {
 
 TEST(FixPointTests, MinusOperators) {
 
-    FixedPoint<2, int> p1(3,40);
-    FixedPoint<2, int> p2(5,90);
-    FixedPoint<2, int> p3(1,1);
-    FixedPoint<2, int> p4(3,40);
+    FixedPoint<2, int> p1(3, 40);
+    FixedPoint<2, int> p2(5, 90);
+    FixedPoint<2, int> p3(1, 1);
+    FixedPoint<2, int> p4(3, 40);
 
-    FixedPoint<2, int> p5(0,3);
-    FixedPoint<2, int> p6(0,9);
+    FixedPoint<2, int> p5(0, 3);
+    FixedPoint<2, int> p6(0, 9);
 
 
-    std::cout <<"p1  "<< p1;
-    std::cout <<"p2  "<< p2;
-    std::cout <<"p3  "<< p3;
-    std::cout <<"p4  "<< p4;
+    std::cout << "p1  " << p1;
+    std::cout << "p2  " << p2;
+    std::cout << "p3  " << p3;
+    std::cout << "p4  " << p4;
 
     p1 -= p3;
-    std::cout <<"p1  "<< p1;
-    ASSERT_TRUE(p1.GetIntegerPart() == 2 && p1.GetFractionalPart()==39 );
+    std::cout << "p1  " << p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 2 && p1.GetFractionalPart() == 39);
     p4 -= p2;
-    std::cout <<"p4  !!!!!"<< p4;
-    ASSERT_TRUE(p4.GetIntegerPart() == -2 && p4.GetFractionalPart()==50 );
-    ASSERT_TRUE(p4.GetData()==-250 );
+    std::cout << "p4  !!!!!" << p4;
+    ASSERT_TRUE(p4.GetIntegerPart() == -2 && p4.GetFractionalPart() == 50);
+    ASSERT_TRUE(p4.GetData() == -250);
 
-    p5-=p6;
-    std::cout <<"p5  !!!!!"<< p5;
+    p5 -= p6;
+    std::cout << "p5  !!!!!" << p5;
 
-    ASSERT_TRUE(p5.GetIntegerPart() == -0 && p5.GetFractionalPart()==6 );
+    ASSERT_TRUE(p5.GetIntegerPart() == -0 && p5.GetFractionalPart() == 6);
 
 }
+
 TEST(FixPointTests, MultiplicationOperator) {
-    FixedPoint<2, int> p1(3,40);
-    FixedPoint<2, int> p2(5,90);
-    p1*=p2;
-    std::cout<<p1;
-    ASSERT_TRUE(p1.GetIntegerPart() == 20&& p1.GetFractionalPart()==6 );
-    ASSERT_TRUE(p1.GetData()==2006 );
+    FixedPoint<2, int> p1(3, 40);
+    FixedPoint<2, int> p2(5, 90);
+    p1 *= p2;
+    std::cout << p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 20 && p1.GetFractionalPart() == 6);
+    ASSERT_TRUE(p1.GetData() == 2006);
 }
 
 TEST(FixPointTests, BollanOperators) {
 
-    FixedPoint<2, int> p1(3,40);
-    FixedPoint<2, int> p2(5,90);
-    FixedPoint<2, int> p3(1,1);
-    FixedPoint<2, int> p4(3,40);
+    FixedPoint<2, int> p1(3, 40);
+    FixedPoint<2, int> p2(5, 90);
+    FixedPoint<2, int> p3(1, 1);
+    FixedPoint<2, int> p4(3, 40);
 
 
-
-    ASSERT_TRUE(p1==p4 );
-    ASSERT_TRUE(p2>p1 );
-    ASSERT_TRUE(p3<p4 );
-    ASSERT_FALSE(p1==p2 );
+    ASSERT_TRUE(p1 == p4);
+    ASSERT_TRUE(p2 > p1);
+    ASSERT_TRUE(p3 < p4);
+    ASSERT_FALSE(p1 == p2);
 
 }
 
 TEST(FixPointTests, power_template_metaprogramming) {
-    ASSERT_TRUE(pow_base_n<2>(10)==100 );
+    std::cout << "pow_base_n<2,10>::value   " << pow_base_n<2, 10>::value;
+    int val = pow_base_n<2, 10>::value;
+    ASSERT_EQ(val, 100);
+//    ASSERT_TRUE(pow_base_n<2,10>::value==100 );
 }
 
 TEST(FixPointTests, DivideOperator) {
-    FixedPoint<2, int> p1(30,40);
-    FixedPoint<2, int> p2(5,90);
-    FixedPoint<2, int> p3(1,50);
-    p1/=p2;
-    std::cout<<p1;
-    ASSERT_TRUE(p1.GetIntegerPart() == 5&& p1.GetFractionalPart()==15 );
-    ASSERT_TRUE(p1.GetData()==515 );
-    std::cout<<p2;
-    std::cout<<p3;
-    p3/=p2;
-    std::cout<<p3;
-    ASSERT_TRUE(p3.GetIntegerPart() == 0&& p3.GetFractionalPart()==25 );
-    ASSERT_TRUE(p3.GetData()==25 );
+    FixedPoint<2, int> p1(30, 40);
+    FixedPoint<2, int> p2(5, 90);
+    FixedPoint<2, int> p3(1, 50);
+    p1 /= p2;
+    std::cout << p1;
+    ASSERT_TRUE(p1.GetIntegerPart() == 5 && p1.GetFractionalPart() == 15);
+    ASSERT_TRUE(p1.GetData() == 515);
+    std::cout << p2;
+    std::cout << p3;
+    p3 /= p2;
+    std::cout << p3;
+    ASSERT_TRUE(p3.GetIntegerPart() == 0 && p3.GetFractionalPart() == 25);
+    ASSERT_TRUE(p3.GetData() == 25);
 }
 
 TEST(FixPointTests, GetPrecision) {
-    FixedPoint<2, int> p1(30,40);
-    ASSERT_TRUE(p1.GetPrecision()==2 );
+    FixedPoint<2, int> p1(30, 40);
+    ASSERT_TRUE(p1.GetPrecision() == 2);
 }
+
 TEST(FixPointTests, color_interface) {
-    FixedPoint<2, int> p1(30,40);
-   Color color;
-    Color * arr= color.calcFixedPointGradient(p1);
-    int len= (sizeof(arr)/sizeof(*arr));
-    std::cout<<"len  "<<len<<std::endl;//todo:hoe to get len of local static arrary
-    ASSERT_TRUE(color.getLenArry(p1)==2 );
+    FixedPoint<2, int> p1(30, 40);
+    Color color;
+    Color *arr = color.calcFixedPointGradient(p1);
+    int len = (sizeof(arr) / sizeof(*arr));
+    std::cout << "len  " << len << std::endl;//todo:hoe to get len of local static arrary
+    ASSERT_TRUE(color.getLenArry(p1) == 2);
 
 
 //    ASSERT_TRUE(p1.GetPrecision()==2 );
@@ -580,9 +581,9 @@ TEST(FixPointTests, color_interface) {
 }
 
 TEST(FixPointTests, asString) {
-    FixedPoint<2, int> p1(30,40);
-std::cout<<"res:   "<<p1.asString();
-    ASSERT_TRUE(p1.asString()=="30.40");
+    FixedPoint<2, int> p1(30, 40);
+    std::cout << "res:   " << p1.asString();
+    ASSERT_TRUE(p1.asString() == "30.40");
 
 
 //    ASSERT_TRUE(p1.GetPrecision()==2 );
@@ -590,15 +591,14 @@ std::cout<<"res:   "<<p1.asString();
 }
 
 
-
 TEST(FixPointTests, digitsToWords1) {
-   std::string st1="123.45";
-   int size=2;
+    std::string st1 = "123.45";
+    int size = 2;
 //    digitsToWords(st1,0,3);
-    std::string IntegerPart= digitsToWord(st1,0,st1.length()-size-1);
-    std::string FractionalPart= digitsToWord(st1,st1.length()-size,st1.length());
-std::cout<<"IntegerPart "<<IntegerPart<<" FractionalPart"<<FractionalPart;
-    ASSERT_TRUE(IntegerPart == "123" &&FractionalPart=="45");
+    std::string IntegerPart = digitsToWord(st1, 0, st1.length() - size - 1);
+    std::string FractionalPart = digitsToWord(st1, st1.length() - size, st1.length());
+    std::cout << "IntegerPart " << IntegerPart << " FractionalPart" << FractionalPart;
+    ASSERT_TRUE(IntegerPart == "123" && FractionalPart == "45");
 
 //    ASSERT_TRUE(p1.GetPrecision()==2 );
 
@@ -607,8 +607,8 @@ std::cout<<"IntegerPart "<<IntegerPart<<" FractionalPart"<<FractionalPart;
 
 TEST(FixPointTests, convert2digit) {
 
-        FixedPoint<2, int> fp(6, 0);
-        std::cout << numberToWords(fp.GetIntegerPart());
+    FixedPoint<2, int> fp(6, 0);
+    std::cout << numberToWords(fp.GetIntegerPart());
 //     ASSERT_TRUE(numberToWords(fp.GetIntegerPart()=="Six");
 
 
@@ -633,9 +633,9 @@ TEST(FixPointTests, cheack) {
 //
 //}
 TEST(FixPointTests, test_theType) {
-    FixedPoint<2, int> p1(30,40);
-std::cout<<"the type"<< sizeof(FixedPoint<2, int>::theType);
-     ASSERT_TRUE(sizeof(int)== sizeof(  FixedPoint<2, int>::theType));
+    FixedPoint<2, int> p1(30, 40);
+    std::cout << "the type" << sizeof(FixedPoint<2, int>::theType);
+    ASSERT_TRUE(sizeof(int) == sizeof(FixedPoint<2, int>::theType));
 //
 //    actSomehow<2>(p1);
 
@@ -645,12 +645,13 @@ std::cout<<"the type"<< sizeof(FixedPoint<2, int>::theType);
 TEST(FixPointTests, test_numberToWords) {
     FixedPoint<2, int> fp(200, 0);
     std::cout << numberToWords(fp.GetIntegerPart());
-    ASSERT_TRUE(numberToWords(fp.GetIntegerPart())== "Two Hundred ");
+    ASSERT_TRUE(numberToWords(fp.GetIntegerPart()) == "Two Hundred ");
 
 }
+
 TEST(FixPointTests, getStringSize) {
     FixedPoint<2, int> fp(200, 2);
-    std::cout <<"getStringSize "<<fp.getStringSize();
-    ASSERT_EQ(fp.getStringSize(),5);
+    std::cout << "getStringSize " << fp.getStringSize();
+    ASSERT_EQ(fp.getStringSize(), 5);
 
 }
