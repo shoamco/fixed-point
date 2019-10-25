@@ -648,3 +648,9 @@ TEST(FixPointTests, test_numberToWords) {
     ASSERT_TRUE(numberToWords(fp.GetIntegerPart())== "Two Hundred ");
 
 }
+TEST(FixPointTests, getStringSize) {
+    FixedPoint<2, int> fp(200, 2);
+    std::cout <<"getStringSize "<<fp.getStringSize();
+    ASSERT_EQ(fp.getStringSize(),5);
+
+}
