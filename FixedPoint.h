@@ -87,6 +87,8 @@ public:
 
     std::string asString();
 
+    int getStringSize();
+
     unsigned int GetPrecision();
 
 
@@ -139,10 +141,13 @@ private:
     int fractional_part; //the fractional part,9-digit accuracy after the point
     bool sign; //true if is Positive else false todo:  represent '-'  when  integer_part =0 and sign is Negative, for example -0.1,
     long int data;//todo: type of int64_t
-    /*asString is inline private static and  FixedPoint its friend*/
-    friend  std::string asString(T integer_part, int fractional_part, unsigned int precision);
 
 
+    /*asString,getStringSize is inline private static function(sto handel with namespace pollution), and  FixedPoint its friend*/
+
+    friend std::string asString(T integer_part, int fractional_part, unsigned int precision);
+
+    friend int getStringSize(T integer_part, unsigned int precision);
 
 
 };
@@ -220,11 +225,33 @@ namespace namespace_details {/* add deeper namespace*/
     }
 }
 
+
 template<unsigned int SIZE, typename T>
 inline std::string FixedPoint<SIZE, T>::asString() {
 
     return namespace_details::asString(integer_part, fractional_part, SIZE); //call global function with the arguments
 
+}
+
+template<typename T>
+inline int countDigit(T n) {
+    if (n == 0)
+        return 0;
+    return 1 + countDigit(n / 10);
+}
+
+namespace namespace_details {/* add deeper namespace*/
+    template<typename T>
+    inline static int getStringSize(T integer_part, unsigned int precision) {
+
+        return countDigit(integer_part) + precision;
+
+    }
+}
+
+template<unsigned int SIZE, typename T>
+inline int FixedPoint<SIZE, T>::getStringSize() {
+    return namespace_details::getStringSize(integer_part, SIZE);
 }
 
 template<unsigned int SIZE, typename T>
