@@ -169,15 +169,7 @@ template<>
 struct pow_base_n<0> {
     static int const value = 1;
 };
-//template <int N>                                                                 // (2)
-//struct Factorial{
-//    static int const value = N * Factorial<N-1>::value;
-//};
-//
-//template <>                                                                      // (3)
-//struct Factorial<1>{
-//    static int const value = 1;
-//};
+
 
 
 template<unsigned int SIZE, typename T>
@@ -313,16 +305,6 @@ inline FixedPoint<SIZE, T> &FixedPoint<SIZE, T>::operator+=(const FixedPoint<SIZ
         fractional_part *= -1;
         sign = !sign;
     }
-//    unsigned int temp_fractional_part = fractional_part + other.fractional_part;
-//
-//    if (checkOverflowFractional(temp_fractional_part, SIZE)) {
-//
-//        integer_part += temp_fractional_part / pow_base_n(SIZE);
-//        fractional_part = temp_fractional_part - pow_base_n(SIZE);
-//    } else {
-//        fractional_part = temp_fractional_part;
-//    }
-//    integer_part += other.integer_part;
 
     return *this;
 }
