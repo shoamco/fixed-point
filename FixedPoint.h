@@ -70,8 +70,9 @@
 template<unsigned int SIZE, typename T = int>
 class FixedPoint {
 public:
-    static const unsigned int Precision=SIZE;
+    static const unsigned int Precision = SIZE;
     typedef T theType;
+
     FixedPoint(T integer_part, int fractional_part);
 
     FixedPoint(const FixedPoint<SIZE, T> &other);
@@ -83,7 +84,9 @@ public:
     unsigned int GetFractionalPart();
 
     bool GetSing();
+
     std::string asString();
+
     unsigned int GetPrecision();
 
 
@@ -141,10 +144,12 @@ private:
 
 
 };
+
 template<unsigned int SIZE, typename T>
-inline unsigned int FixedPoint<SIZE, T>::GetPrecision(){
+inline unsigned int FixedPoint<SIZE, T>::GetPrecision() {
     return Precision;
 }
+
 /***    template metaprogramming    ***/
 template<int n>
 inline size_t pow_base_n(const int x) {
@@ -176,23 +181,50 @@ inline size_t pow_base_n<0>(const int x) {
 template<unsigned int SIZE, typename T>
 inline
 FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) :integer_part(integer_part),
-                                                                       fractional_part(fractional_part),
-                                                                       sign(integer_part >= 0),
-                                                                       data(integer_part * pow_base_n<SIZE>(BASE) +
-                                                                            fractional_part) {
+                                                                      fractional_part(fractional_part),
+                                                                      sign(integer_part >= 0),
+                                                                      data(integer_part * pow_base_n<SIZE>(BASE) +
+                                                                           fractional_part) {
 }
+/***
+         fixed code-bloating:
+
+  to avoid a code-bloating we make the function  not depend on the template
+ argument,by calling to global function with the arguments that nit depend in the type template
+  and In addition we make them functions inline-which means that the compiler just replaces it by the
+direct call ,Plus, there are no more  copies (for all type of template)-since it does not exist in the final code.
+
+
+ the inline  internal function -  depend only the type template,
+and get all the argument that not depend in the template
+ we dont do it global to avoid namespace pollution
+
+
+ to handle with the Problem namespace pollution:(that the 'global' function can cause)
+  1.  Make them static it the file
+  2. Hide the  it in a deeper namespace
+  3. Make it private static in a class, and make FixedPoint its friend
+
+ * ***/
+namespace namespace_details {/* add deeper namespace*/
+    template<typename T>
+    inline std::string asString(T integer_part, int fractional_part, unsigned int precision) {
+        std::ostringstream convert1;
+        std::ostringstream convert2;
+        convert1 << integer_part;
+        convert2 << fractional_part;
+        return convert1.str() + "." + convert2.str(); // set 'Result' to the contents of the stream
+
+    }
+}
+
 template<unsigned int SIZE, typename T>
-inline std::string FixedPoint<SIZE, T>::asString(){
-    std::ostringstream convert1;
-    std::ostringstream convert2;   // stream used for the conversion
+inline std::string FixedPoint<SIZE, T>::asString() {
 
-    convert1 << integer_part;      // insert the textual representation of 'Number' in the characters in the stream
-    convert2 << fractional_part;      // insert the textual representation of 'Number' in the characters in the stream
+    return namespace_details::asString(integer_part, fractional_part, SIZE); //call global function with the arguments
 
-    return convert1.str()+"."+convert2.str(); // set 'Result' to the contents of the stream
-//    return std::string(integer_part+"."+fractional_part);
-//    return std::string(integer_part)+std::string(".")+std::string(fractional_part);
 }
+
 template<unsigned int SIZE, typename T>
 inline
 FixedPoint<SIZE, T>::FixedPoint(const FixedPoint<SIZE, T> &other):integer_part(other.integer_part),
