@@ -139,6 +139,8 @@ private:
     int fractional_part; //the fractional part,9-digit accuracy after the point
     bool sign; //true if is Positive else false todo:  represent '-'  when  integer_part =0 and sign is Negative, for example -0.1,
     long int data;//todo: type of int64_t
+    /*asString is inline private static and  FixedPoint its friend*/
+    friend  std::string asString(T integer_part, int fractional_part, unsigned int precision);
 
 
 
@@ -187,7 +189,7 @@ FixedPoint<SIZE, T>::FixedPoint(T integer_part, int fractional_part) :integer_pa
                                                                            fractional_part) {
 }
 /***
-         fixed code-bloating:
+         handle with  code-bloating:
 
   to avoid a code-bloating we make the function  not depend on the template
  argument,by calling to global function with the arguments that nit depend in the type template
@@ -208,7 +210,7 @@ and get all the argument that not depend in the template
  * ***/
 namespace namespace_details {/* add deeper namespace*/
     template<typename T>
-    inline std::string asString(T integer_part, int fractional_part, unsigned int precision) {
+    inline static std::string asString(T integer_part, int fractional_part, unsigned int precision) {
         std::ostringstream convert1;
         std::ostringstream convert2;
         convert1 << integer_part;
