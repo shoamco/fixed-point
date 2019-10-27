@@ -206,8 +206,8 @@ namespace namespace_details {/* add deeper namespace*/
         std::ostringstream convert1;
         std::ostringstream convert2;
         convert1 << integer_part;
-        convert2 << fractional_part;
-        return convert1.str() + "." + convert2.str(); // set 'Result' to the contents of the stream
+        convert2 <<  std::setfill('0')<<std::setw(precision)<<fractional_part;
+        return convert1.str() +  "."+ convert2.str(); // set 'Result' to the contents of the stream
 
     }
 }
@@ -257,7 +257,7 @@ inline std::ostream &operator<<(std::ostream &stream, const FixedPoint<SIZE2, U>
             << " fractional_part " << fixedPoint.fractional_part
             << " sign: " << fixedPoint.sign
             << " data: " << fixedPoint.data
-            << " all number" << fixedPoint.integer_part << "." << std::setfill('0') << std::setw(2)
+            << " all number" << fixedPoint.integer_part << "." << std::setfill('0') << std::setw(SIZE2)
             << fixedPoint.fractional_part << std::endl;
 
 }
